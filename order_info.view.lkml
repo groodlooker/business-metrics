@@ -131,4 +131,24 @@ view: order_info {
     type: count
     drill_fields: [customer_name, product_name]
   }
+
+  measure: total_sales {
+    type: sum
+    label: "Total Sales"
+    value_format_name: usd_0
+    sql: ${sales} ;;
+  }
+
+  measure: total_profit {
+    type: sum
+    label: "Total Profit"
+    value_format_name: usd_0
+    sql: ${profit} ;;
+  }
+
+  measure: avg_discount {
+    type: average
+    label: "Average Discount"
+    sql: ${discount} ;;
+  }
 }
