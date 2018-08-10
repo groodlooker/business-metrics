@@ -37,8 +37,11 @@ view: order_info {
     timeframes: [
       raw,
       date,
+      day_of_year,
       week,
+      week_of_year,
       month,
+      month_name,
       quarter,
       year
     ]
@@ -153,6 +156,52 @@ view: order_info {
     value_format_name: percent_1
     label: "Average Discount"
     sql: ${discount} ;;
+  }
+
+  dimension: ly {
+    type: yesno
+    hidden: yes
+    group_label: "Year over Year Metrics"
+    sql: ${order_year} = Extract(year from now()) - 1 ;;
+
+  }
+
+  dimension: ty {
+    type: yesno
+    hidden: yes
+    group_label: "Year over Year Metrics"
+    sql: ${order_year} = Extract(year from now()) ;;
+
+  }
+
+  dimension: ytd {
+    type: yesno
+    group_label: "Year over Year Metrics"
+    sql: ${order_day_of_year} <= Extract(doy from now()) ;;
+  }
+
+  measure: ty_sales {
+    type: sum
+    value_format_name: usd_0
+    label: "This Year Sales"
+    group_label: "Year over Year Metrics"
+    filters: {
+      field: ty
+      value: "yes"
+    }
+    sql: ${sales} ;;
+  }
+
+  measure: ly_sales {
+    type: sum
+    value_format_name: usd_0
+    label: "Last Year Sales"
+    group_label: "Year over Year Metrics"
+    filters: {
+      field: ly
+      value: "yes"
+    }
+    sql: ${sales} ;;
   }
 
 
