@@ -54,6 +54,7 @@ view: order_info {
 
   dimension: postal_code {
     type: string
+    map_layer_name: us_zipcode_tabulation_areas
     sql: ${TABLE}.postal_code ;;
   }
 
@@ -119,6 +120,7 @@ view: order_info {
 
   dimension: state {
     type: string
+    map_layer_name: us_states
     sql: ${TABLE}.state ;;
   }
 
