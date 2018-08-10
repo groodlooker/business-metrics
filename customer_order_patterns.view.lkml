@@ -23,6 +23,7 @@ view: cust_order_patterns {
   }
   measure: avg_order {
     type: average
+    label: "Avg Customer Order Size"
     value_format_name: usd
     sql: ${total_sales} ;;
   }
