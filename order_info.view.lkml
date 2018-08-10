@@ -148,6 +148,7 @@ view: order_info {
 
   measure: avg_discount {
     type: average
+    value_format_name: percent_1
     label: "Average Discount"
     sql: ${discount} ;;
   }
