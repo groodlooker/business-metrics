@@ -204,5 +204,21 @@ view: order_info {
     sql: ${sales} ;;
   }
 
+  measure: ty_running_total{
+    type: running_total
+    value_format_name: usd_0
+    label: "Running Sum This Year Sales"
+    group_label: "Year over Year Metrics"
+    sql: ${ty_sales} ;;
+  }
+
+  measure: ly_running_total{
+    type: running_total
+    value_format_name: usd_0
+    label: "Running Sum Last Year Sales"
+    group_label: "Year over Year Metrics"
+    sql: ${ly_sales} ;;
+  }
+
 
 }
