@@ -220,5 +220,18 @@ view: order_info {
     sql: ${ly_sales} ;;
   }
 
+  measure: unique_orders {
+    type: count_distinct
+    label: "Unique Orders"
+    sql: ${order_id} ;;
+  }
+
+  measure: customer_cnt {
+    type: count_distinct
+    label: "Count of Customers (histogram)"
+    sql: ${customer_name} ;;
+    drill_fields: [customer_name]
+  }
+
 
 }

@@ -15,4 +15,8 @@ explore: order_info {
     sql_on: ${order_info.customer_name} = ${cust_order_patterns.customer_name} ;;
     relationship: many_to_many
   }
+  join: orders_hist {
+    sql_on: ${order_info.customer_name} = ${orders_hist.customer_name} ;;
+    relationship: many_to_one
+  }
 }

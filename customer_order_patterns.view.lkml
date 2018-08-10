@@ -25,6 +25,7 @@ view: cust_order_patterns {
     type: average
     label: "Avg Customer Order Size"
     value_format_name: usd
+    drill_fields: [customer_name]
     sql: ${total_sales} ;;
   }
 }
