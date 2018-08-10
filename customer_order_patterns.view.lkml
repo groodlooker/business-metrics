@@ -9,13 +9,17 @@ view: cust_order_patterns {
       column: total_sales {}
     }
   }
-  dimension: customer_name {}
+  dimension: customer_name {
+    hidden: yes
+  }
   dimension: order_id {
+    hidden: yes
     primary_key: yes
   }
   dimension: total_sales {
     value_format: "$#,##0"
     type: number
+    hidden: yes
   }
   measure: avg_order {
     type: average
