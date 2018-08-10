@@ -152,4 +152,6 @@ view: order_info {
     label: "Average Discount"
     sql: ${discount} ;;
   }
+
+
 }
