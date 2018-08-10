@@ -10,4 +10,9 @@ datagroup: sales_default_datagroup {
 
 persist_with: sales_default_datagroup
 
-explore: order_info {}
+explore: order_info {
+  join: cust_order_patterns {
+    sql_on: ${order_info.customer_name} = ${cust_order_patterns.customer_name} ;;
+    relationship: many_to_many
+  }
+}
