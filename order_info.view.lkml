@@ -183,31 +183,31 @@ view: order_info {
   measure: ty_sales {
     type: sum
     value_format_name: usd_0
-    label: "This Year Sales"
+    label: "This Year {% parameter choose_measure %}"
     group_label: "Year over Year Metrics"
     filters: {
       field: ty
       value: "yes"
     }
-    sql: ${sales} ;;
+    sql: ${TABLE}.{% parameter choose_measure %} ;;
   }
 
   measure: ly_sales {
     type: sum
     value_format_name: usd_0
-    label: "Last Year Sales"
+    label: "Last Year {% parameter choose_measure %}"
     group_label: "Year over Year Metrics"
     filters: {
       field: ly
       value: "yes"
     }
-    sql: ${sales} ;;
+    sql: ${TABLE}.{% parameter choose_measure %} ;;
   }
 
   measure: ty_running_total{
     type: running_total
     value_format_name: usd_0
-    label: "Running Sum This Year Sales"
+    label: "Running Sum This Year {% parameter choose_measure %}"
     group_label: "Year over Year Metrics"
     sql: ${ty_sales} ;;
   }
@@ -215,9 +215,17 @@ view: order_info {
   measure: ly_running_total{
     type: running_total
     value_format_name: usd_0
-    label: "Running Sum Last Year Sales"
+    label: "Running Sum Last Year {% parameter choose_measure %}"
     group_label: "Year over Year Metrics"
     sql: ${ly_sales} ;;
+  }
+
+  measure: running_diff {
+    type: running_total
+    value_format_name: usd_0
+    label: "Running Difference of {% parameter choose_measure %}"
+    group_label: "Year over Year Metrics"
+    sql: ${ty_running_total} - ${ly_running_total} ;;
   }
 
   measure: unique_orders {
@@ -233,5 +241,22 @@ view: order_info {
     drill_fields: [customer_name]
   }
 
+  parameter: choose_measure {
+    type: unquoted
+    default_value: "sales"
+    label: "Last Year Metric"
+    allowed_value: {
+      label: "Sales"
+      value: "sales"
+    }
+    allowed_value: {
+      label: "Profit"
+      value: "profit"
+    }
+    allowed_value: {
+      label: "Quantity"
+      value: "quantity"
+    }
+  }
 
 }
