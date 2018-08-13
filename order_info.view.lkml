@@ -1,6 +1,10 @@
 view: order_info {
   sql_table_name: public.order_info ;;
 
+  set: my_drills {
+    fields: [product_name, order_date, region]
+  }
+
   dimension: category {
     type: string
     sql: ${TABLE}.category ;;
@@ -141,6 +145,7 @@ view: order_info {
     type: sum
     label: "Total Sales"
     value_format_name: usd_0
+    drill_fields: [my_drills*]
     sql: ${sales} ;;
   }
 
@@ -148,6 +153,7 @@ view: order_info {
     type: sum
     label: "Total Profit"
     value_format_name: usd_0
+    drill_fields: [my_drills*]
     sql: ${profit} ;;
   }
 
@@ -189,6 +195,7 @@ view: order_info {
       field: ty
       value: "yes"
     }
+    drill_fields: [my_drills*]
     sql: ${TABLE}.{% parameter choose_measure %} ;;
   }
 
@@ -201,6 +208,7 @@ view: order_info {
       field: ly
       value: "yes"
     }
+    drill_fields: [my_drills*]
     sql: ${TABLE}.{% parameter choose_measure %} ;;
   }
 
