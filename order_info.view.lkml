@@ -253,10 +253,10 @@ view: order_info {
       label: "Profit"
       value: "profit"
     }
-    allowed_value: {
-      label: "Quantity"
-      value: "quantity"
-    }
+#     allowed_value: {
+#       label: "Quantity"
+#       value: "quantity"
+#     }
   }
 
 }
