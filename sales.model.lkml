@@ -4,8 +4,8 @@ connection: "postgres-sales-transactions"
 include: "*.view"
 
 datagroup: sales_default_datagroup {
-  # sql_trigger: SELECT MAX(id) FROM etl_log;;
-  max_cache_age: "1 hour"
+  sql_trigger: SELECT MAX(order_date) FROM order_info WHERE order_date <= now() ;;
+  max_cache_age: "24 hour"
 }
 
 persist_with: sales_default_datagroup
