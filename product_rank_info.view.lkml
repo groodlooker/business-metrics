@@ -3,6 +3,8 @@
 
 view: product_rank_info {
   derived_table: {
+    persist_for: "24 hours"
+    indexes: ["product_name"]
     explore_source: order_info {
       column: region {}
       column: segment {}
