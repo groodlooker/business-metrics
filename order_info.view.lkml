@@ -242,9 +242,9 @@ view: order_info {
   }
 
   measure: product_max {
-    type: max
+    type: string
     label: "Product Rank Pivot"
-    sql: ${product_name} ;;
+    sql: max(${product_name}) ;;
   }
 
   parameter: choose_measure {
