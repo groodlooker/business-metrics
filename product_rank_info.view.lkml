@@ -22,6 +22,7 @@ view: product_rank_info {
       }
     }
   }
+
   dimension: order_year {
     hidden: yes
   }
