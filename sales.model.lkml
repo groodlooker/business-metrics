@@ -19,4 +19,10 @@ explore: order_info {
     sql_on: ${order_info.customer_name} = ${orders_hist.customer_name} ;;
     relationship: many_to_one
   }
+  join: product_rank_info {
+    sql_on: ${order_info.product_name} = ${product_rank_info.product_name}
+    and ${order_info.region} = ${product_rank_info.region}
+    and ${order_info.segment} = ${product_rank_info.segment};;
+    relationship: many_to_one
+  }
 }

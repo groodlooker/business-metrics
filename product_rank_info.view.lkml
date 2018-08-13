@@ -12,7 +12,7 @@ view: product_rank_info {
         sql: RANK() OVER(partition by region order by total_sales desc) ;;
       }
       derived_column: segment_rank {
-        sql: RANK() OVER(PARTITION BY segment ORDER BY total_sales desc ;;
+        sql: RANK() OVER(PARTITION BY segment ORDER BY total_sales desc) ;;
       }
       derived_column: row_num {
         sql: row_number() over(order by region, product_name) ;;
@@ -22,6 +22,7 @@ view: product_rank_info {
   dimension: region {
     hidden: yes
   }
+  dimension: segment {}
   dimension: product_name {
     hidden: yes
   }
@@ -44,3 +45,5 @@ view: product_rank_info {
     label: "Row Id"
   }
 }
+
+explore: product_rank_info {}
