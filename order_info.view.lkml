@@ -199,6 +199,7 @@ view: order_info {
     sql: ${TABLE}.{% parameter choose_measure %} ;;
   }
 
+
   measure: ly_sales {
     type: sum
     value_format_name: usd_0
