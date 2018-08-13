@@ -239,6 +239,7 @@ view: order_info {
 
   measure: unique_orders {
     type: count_distinct
+    drill_fields: [order_month, total_sales]
     label: "Unique Orders"
     sql: ${order_id} ;;
   }
