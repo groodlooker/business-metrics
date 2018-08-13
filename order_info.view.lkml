@@ -153,7 +153,7 @@ view: order_info {
     type: sum
     label: "Total Profit"
     value_format_name: usd_0
-    drill_fields: [my_drills*]
+    drill_fields: [product_name,region]
     sql: ${profit} ;;
   }
 
