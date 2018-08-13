@@ -241,6 +241,12 @@ view: order_info {
     drill_fields: [customer_name]
   }
 
+  measure: product_max {
+    type: max
+    label: "Product Rank Pivot"
+    sql: ${product_name} ;;
+  }
+
   parameter: choose_measure {
     type: unquoted
     default_value: "sales"
