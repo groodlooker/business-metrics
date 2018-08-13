@@ -47,5 +47,3 @@ view: product_rank_info {
     label: "Row Id"
   }
 }
-
-explore: product_rank_info {}
