@@ -22,7 +22,9 @@ view: product_rank_info {
   dimension: region {
     hidden: yes
   }
-  dimension: segment {}
+  dimension: segment {
+    hidden: yes
+  }
   dimension: product_name {
     hidden: yes
   }
