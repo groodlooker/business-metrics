@@ -3,7 +3,7 @@
 
 view: product_rank_info {
   derived_table: {
-    persist_for: "24 hours"
+    datagroup_trigger: sales_default_datagroup
     indexes: ["product_name"]
     explore_source: order_info {
       column: region {}
