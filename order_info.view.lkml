@@ -2,7 +2,7 @@ view: order_info {
   sql_table_name: public.order_info ;;
 
   set: my_drills {
-    fields: [product_name, order_date, region]
+    fields: [product_name, order_month, region, total_sales, total_profit]
   }
 
   dimension: category {
