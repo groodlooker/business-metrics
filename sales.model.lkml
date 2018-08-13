@@ -22,7 +22,7 @@ explore: order_info {
   join: product_rank_info {
     sql_on: ${order_info.product_name} = ${product_rank_info.product_name}
     and ${order_info.region} = ${product_rank_info.region}
-    and ${order_info.segment} = ${product_rank_info.segment};;
+    and ${order_info.order_year} = ${product_rank_info.order_year};;
     relationship: many_to_one
   }
 }
