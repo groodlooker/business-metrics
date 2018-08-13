@@ -268,10 +268,7 @@ view: order_info {
       label: "Profit"
       value: "profit"
     }
-#     allowed_value: {
-#       label: "Quantity"
-#       value: "quantity"
-#     }
+#making change for deploy
   }
 
 }
