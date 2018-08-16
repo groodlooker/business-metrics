@@ -42,6 +42,7 @@ view: order_aggregate {
   measure: avg_days_btw_purchase {
     label: "Average Days Between Orders"
     type: average
+    value_format_name: decimal_1
     sql: ${days_btw_purchase} ;;
   }
 
