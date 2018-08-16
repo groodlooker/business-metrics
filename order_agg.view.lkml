@@ -1,4 +1,5 @@
 view: order_aggregate {
+  view_label: "Customer Metrics"
   derived_table: {
     explore_source: order_info {
       column: customer_name {}

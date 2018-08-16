@@ -2,6 +2,7 @@
 # include: "sales.model.lkml"
 
 view: cust_order_patterns {
+  view_label: "Customer Metrics"
   derived_table: {
     explore_source: order_info {
       column: customer_name {}
