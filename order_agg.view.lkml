@@ -8,17 +8,24 @@ view: order_aggregate {
       column: total_sales {}
     }
   }
-  dimension: customer_name {}
+  dimension: customer_name {
+    hidden: yes
+  }
   dimension: order_id {
     primary_key: yes
+    hidden: yes
   }
   dimension: order_date {
     type: date
+    hidden: yes
   }
-  dimension: total_sales {}
+  dimension: total_sales {
+    hidden: yes
+  }
 
   dimension: next_purchase {
     type: date
+    hidden: yes
     sql: (select min(o.order_date)
          from public.order_info o
          where ${TABLE}.customer_name = o.customer_name
@@ -26,6 +33,7 @@ view: order_aggregate {
   }
 
   dimension: days_btw_purchase {
+    hidden: yes
     label: "Days Between Purchase"
     type: number
     sql: DATE_PART('day', ${next_purchase}::timestamp - ${order_date}::timestamp) ;;
