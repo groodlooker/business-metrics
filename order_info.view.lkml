@@ -199,6 +199,14 @@ view: order_info {
     sql: ${TABLE}.{% parameter choose_measure %} ;;
   }
 
+  dimension: next_purchase {
+    type: number
+    sql: select min(${order_date})
+         from public.order_info o
+         where ${TABLE}.customer_id = o.customer_id
+         and ${TABLE}.order_date > o.order_date;;
+  }
+
 
   measure: ly_sales {
     type: sum
