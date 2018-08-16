@@ -200,11 +200,23 @@ view: order_info {
   }
 
   dimension: next_purchase {
-    type: number
-    sql: select min(${order_date})
+    type: date
+    sql: (select min(o.order_date)
          from public.order_info o
-         where ${TABLE}.customer_id = o.customer_id
-         and ${TABLE}.order_date > o.order_date;;
+         where ${TABLE}.customer_name = o.customer_name
+         and o.order_date > ${TABLE}.order_date);;
+  }
+
+  dimension: days_btw_purchase {
+    label: "Days Between Purchase"
+    type: number
+    sql: DATE_PART('day', ${next_purchase}::timestamp - ${order_date}::timestamp) ;;
+  }
+
+  measure: avg_days_btw_purchase {
+    label: "Average Days Between Orders"
+    type: average
+    sql: ${days_btw_purchase} ;;
   }
 
 

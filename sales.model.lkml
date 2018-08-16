@@ -25,4 +25,8 @@ explore: order_info {
     and ${order_info.order_year} = ${product_rank_info.order_year};;
     relationship: many_to_one
   }
+  join: order_aggregate {
+    sql_on: ${order_aggregate.order_id} = ${order_info.order_id};;
+    relationship: many_to_one
+  }
 }
