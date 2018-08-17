@@ -8,11 +8,11 @@ view: product_rank_info {
     explore_source: order_info {
       column: region {}
       column: order_year {}
-#       column: segment {}
+      column: segment {}
       column: product_name {}
       column: total_sales {}
       derived_column: regional_rank {
-        sql: RANK() OVER(partition by order_year, region order by total_sales desc) ;;
+        sql: RANK() OVER(partition by order_year, region, segment order by total_sales desc) ;;
       }
 #       derived_column: segment_rank {
 #         sql: RANK() OVER(PARTITION BY segment ORDER BY total_sales desc) ;;
