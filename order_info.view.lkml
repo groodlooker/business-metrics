@@ -193,7 +193,7 @@ view: order_info {
   dimension: ytd {
     type: yesno
     group_label: "Year over Year Metrics"
-    sql: ${order_day_of_year} <= Extract(doy from now()) ;;
+    sql: ${order_week_of_year} <= Extract(week from now()) ;;
   }
 
   measure: ty_sales {
