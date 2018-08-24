@@ -37,6 +37,7 @@ view: order_aggregate {
     sql: date_part('day', ${order_date} - ${TABLE}.next_order::timestamp) ;;
   }
   dimension: order_sequence {
+    type: number
     sql: ${TABLE}.order_sequence ;;
   }
   measure: average_days_between_orders {
