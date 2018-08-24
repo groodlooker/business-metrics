@@ -50,5 +50,3 @@ view: order_aggregate {
 
 
 }
-
-explore: order_aggregate {}
