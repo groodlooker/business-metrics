@@ -222,25 +222,25 @@ view: order_info {
     sql: ${TABLE}.{% parameter choose_measure %} ;;
   }
 
-  dimension: next_purchase {
-    type: date
-    sql: (select min(o.order_date)
-         from public.order_info o
-         where ${TABLE}.customer_name = o.customer_name
-         and o.order_date > ${TABLE}.order_date);;
-  }
-
-  dimension: days_btw_purchase {
-    label: "Days Between Purchase"
-    type: number
-    sql: DATE_PART('day', ${next_purchase}::timestamp - ${order_date}::timestamp) ;;
-  }
-
-  measure: avg_days_btw_purchase {
-    label: "Average Days Between Orders"
-    type: average
-    sql: ${days_btw_purchase} ;;
-  }
+#   dimension: next_purchase {
+#     type: date
+#     sql: (select min(o.order_date)
+#          from public.order_info o
+#          where ${TABLE}.customer_name = o.customer_name
+#          and o.order_date > ${TABLE}.order_date);;
+#   }
+#
+#   dimension: days_btw_purchase {
+#     label: "Days Between Purchase"
+#     type: number
+#     sql: DATE_PART('day', ${next_purchase}::timestamp - ${order_date}::timestamp) ;;
+#   }
+#
+#   measure: avg_days_btw_purchase {
+#     label: "Average Days Between Orders"
+#     type: average
+#     sql: ${days_btw_purchase} ;;
+#   }
 
 
   measure: ly_sales {

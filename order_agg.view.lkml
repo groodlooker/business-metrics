@@ -67,6 +67,7 @@ view: order_aggregate {
 #     type: average
 #     value_format_name: decimal_1
 #     sql: ${days_btw_purchase} ;;
+#   https://localhost:9999/sql/c5xxnq9b8rdprs
 #   }
 
 
