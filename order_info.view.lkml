@@ -12,11 +12,13 @@ view: order_info {
 
   dimension: city {
     type: string
+    view_label: "Customer Location Details"
     sql: ${TABLE}.city ;;
   }
 
   dimension: country {
     type: string
+    view_label: "Customer Location Details"
     map_layer_name: countries
     sql: ${TABLE}.country ;;
   }
@@ -34,6 +36,13 @@ view: order_info {
   dimension: discount {
     type: number
     sql: ${TABLE}.discount ;;
+  }
+
+  measure: average_spend_per_order {
+    type: number
+    description: "Total sales divided by distinct orders. This number will equal total sales when drilled down to order_id detail."
+    value_format_name: usd_0
+    sql: ${total_sales} / ${unique_orders} ;;
   }
 
   dimension_group: order {
@@ -71,6 +80,7 @@ view: order_info {
 
   dimension: postal_code {
     type: string
+    view_label: "Customer Location Details"
     map_layer_name: us_zipcode_tabulation_areas
     sql: ${TABLE}.postal_code ;;
   }
@@ -97,6 +107,7 @@ view: order_info {
 
   dimension: region {
     type: string
+    view_label: "Customer Location Details"
     sql: ${TABLE}.region ;;
   }
 
@@ -138,6 +149,7 @@ view: order_info {
 
   dimension: state {
     type: string
+    view_label: "Customer Location Details"
     map_layer_name: us_states
     sql: ${TABLE}.state ;;
   }
