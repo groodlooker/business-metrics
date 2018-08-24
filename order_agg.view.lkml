@@ -2,7 +2,7 @@ view: order_aggregate {
   view_label: "Customer Metrics"
   derived_table: {
     datagroup_trigger: sales_default_datagroup
-    indexes: ["order_id"]
+    indexes: ["order_id","customer_name"]
     explore_source: order_info {
       column: customer_name {}
       column: order_id {}
