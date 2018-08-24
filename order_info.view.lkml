@@ -102,6 +102,7 @@ view: order_info {
 
   dimension: row_id {
     type: number
+    primary_key: yes
     sql: ${TABLE}.row_id ;;
   }
 
