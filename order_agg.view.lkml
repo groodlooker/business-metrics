@@ -8,10 +8,14 @@ view: order_aggregate {
       column: order_id {}
       column: order_date {}
       column: total_sales {}
+      derived_column: next_order {
+        sql: lag(order_date,1) over(partition by customer_name order by order_date asc) ;;
+      }
     }
   }
   dimension: customer_name {
     hidden: yes
+    sql: ${TABLE}.customer_name ;;
   }
   dimension: order_id {
     primary_key: yes
@@ -32,6 +36,18 @@ view: order_aggregate {
          from public.order_info o
          where ${TABLE}.customer_name = o.customer_name
          and o.order_date > ${TABLE}.order_date);;
+  }
+
+  dimension: days_btw_two {
+    hidden: yes
+    type: number
+    sql: date_part('day', ${TABLE}.next_order - ${order_date}) ;;
+  }
+
+  measure: avg_days_btw_two {
+    type: average
+    value_format_name: decimal_1
+    sql: ${days_btw_two} ;;
   }
 
   dimension: days_btw_purchase {
