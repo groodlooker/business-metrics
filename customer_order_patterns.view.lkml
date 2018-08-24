@@ -4,6 +4,8 @@
 view: cust_order_patterns {
   view_label: "Customer Metrics"
   derived_table: {
+    datagroup_trigger: sales_default_datagroup
+    indexes: ["order_id"]
     explore_source: order_info {
       column: customer_name {}
       column: order_id {}
