@@ -25,12 +25,21 @@ view: order_info {
 
   dimension: customer_id {
     type: string
+    view_label: "Customer Attributes"
     sql: ${TABLE}.customer_id ;;
   }
 
   dimension: customer_name {
     type: string
+    view_label: "Customer Attributes"
     sql: ${TABLE}.customer_name ;;
+  }
+
+  dimension: customer_phone_number {
+    type: string
+    view_label: "Customer Attributes"
+    tags: ["phone"]
+    sql: '9134618146' ;;
   }
 
   dimension: discount {
@@ -124,6 +133,7 @@ view: order_info {
 
   dimension: segment {
     type: string
+    view_label: "Customer Attributes"
     sql: ${TABLE}.segment ;;
   }
 
@@ -296,7 +306,8 @@ view: order_info {
 
   measure: product_max {
     type: string
-    label: "Product Rank Pivot"
+    label: "Product Name Aggregated"
+    description: "You can leverage this field with rank and a pivot of region, segment or order year"
     sql: max(${product_name}) ;;
   }
 
