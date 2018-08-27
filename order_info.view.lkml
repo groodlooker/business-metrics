@@ -165,6 +165,7 @@ view: order_info {
 
   dimension: sub_category {
     type: string
+    drill_fields: [product_name, difference_in_sales_yoy]
     sql: ${TABLE}.sub_category ;;
   }
 
@@ -275,7 +276,8 @@ view: order_info {
   measure: percent_diff_in_sales_yoy {
     type: number
     value_format_name: percent_1
-    sql:(${ty_sales} - ${ly_sales}) / ${ly_sales} ;;
+    drill_fields: [product_name, difference_in_sales_yoy]
+    sql:(${ty_sales} - ${ly_sales}) / NULLIF(${ly_sales},0) ;;
     html: {% if value < 0 %}
     <div><img src="https://localhost:8443/icon-set/down-arrow.png" height=10 width=10>&ensp;{{ rendered_value }}</div>
     {% else %}
