@@ -75,9 +75,8 @@ view: order_info {
   dimension: order_week_of_yearz {
     type: number
     sql: extract(week from ${TABLE}.order_date) ;;
-    drill_fields: [product_name]
     link: {
-      label: "compare yrz"
+      label: "Compare by Product"
       url: "https://localhost:9999/explore/sales/order_info?fields=order_info.order_week_of_yearz,order_info.product_name,order_info.ly_sales,order_info.ty_sales&f[order_info.ytd]=Yes&f[order_info.choose_measure]=sales&f[order_info.order_week_of_yearz]={{value}}&f[order_info.segment]={{order_info.segment._value}}&sorts=order_info.ly_sales+desc&limit=500&column_limit=50"
     }
   }
