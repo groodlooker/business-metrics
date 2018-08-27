@@ -265,6 +265,18 @@ view: order_info {
     sql: ${TABLE}.{% parameter choose_measure %} ;;
   }
 
+  measure: difference_in_sales_yoy {
+    type: number
+    value_format_name: usd_0
+    sql: ${ty_sales} - ${ly_sales} ;;
+  }
+
+  measure: percent_diff_in_sales_yoy {
+    type: number
+    value_format_name: percent_1
+    sql:(${ty_sales} - ${ly_sales}) / ${ly_sales} ;;
+  }
+
   measure: ty_running_total{
     type: running_total
     value_format_name: usd_0
