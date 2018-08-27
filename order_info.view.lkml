@@ -307,6 +307,7 @@ view: order_info {
   measure: product_max {
     type: string
     label: "Product Name Aggregated"
+    drill_fields: [customer_name, total_sales]
     description: "You can leverage this field with rank and a pivot of region, segment or order year"
     sql: max(${product_name}) ;;
   }
