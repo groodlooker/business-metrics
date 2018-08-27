@@ -269,12 +269,18 @@ view: order_info {
     type: number
     value_format_name: usd_0
     sql: ${ty_sales} - ${ly_sales} ;;
+    html: <div align="center">{{rendered_value}}</div> ;;
   }
 
   measure: percent_diff_in_sales_yoy {
     type: number
     value_format_name: percent_1
     sql:(${ty_sales} - ${ly_sales}) / ${ly_sales} ;;
+    html: {% if value < 0 %}
+    <div><img src="https://localhost:8443/icon-set/down-arrow.png" height=10 width=10>&ensp;{{ rendered_value }}</div>
+    {% else %}
+    <div>{{ rendered_value }}</div>
+    {% endif %};;
   }
 
   measure: ty_running_total{
