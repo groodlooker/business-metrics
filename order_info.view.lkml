@@ -2,7 +2,7 @@ view: order_info {
   sql_table_name: public.order_info ;;
 
   set: my_drills {
-    fields: [product_name, order_month, region, total_sales, total_profit]
+    fields: [order_id, customer_name, order_date, region, total_sales, total_profit]
   }
 
   dimension: category {
@@ -72,7 +72,7 @@ view: order_info {
     sql: ${TABLE}.order_date ;;
   }
 
-  dimension: order_week_of_yearz {
+  dimension: order_week_of_the_year {
     type: number
     sql: extract(week from ${TABLE}.order_date) ;;
     link: {
@@ -165,8 +165,11 @@ view: order_info {
 
   dimension: sub_category {
     type: string
-    drill_fields: [product_name, difference_in_sales_yoy]
     sql: ${TABLE}.sub_category ;;
+    link: {
+      label: "Explain the Difference"
+      url: "https://localhost:9999/explore/sales/order_info?fields=order_info.region,order_info.product_name,order_info.difference_in_sales_yoy,order_info.ly_sales,order_info.ty_sales&f[order_info.segment]={{order_info.segment._value}}&f[order_info.ytd]=Yes&f[order_info.sub_category]={{value}}&sorts=order_info.difference_in_sales_yoy,order_info.region,order_info.product_name&limit=5&column_limit=5&vis=%7B%22stacking%22%3A%22%22%2C%22"
+    }
   }
 
   measure: count {
