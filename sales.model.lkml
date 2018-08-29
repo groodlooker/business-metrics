@@ -11,6 +11,8 @@ datagroup: sales_default_datagroup {
 persist_with: sales_default_datagroup
 
 explore: order_info {
+  view_name: order_info
+  from: order_info
   join: cust_order_patterns {
     sql_on: ${order_info.customer_name} = ${cust_order_patterns.customer_name} ;;
     relationship: many_to_many
@@ -33,4 +35,12 @@ explore: order_info {
 #     sql_on: ${order_info.sub_category} = ${sub_category_metrics.sub_category} ;;
 #     relationship: many_to_one
 #   }
+}
+
+explore: regional_manager_sales_summary {
+  extends: [order_info]
+  join: regional_managers {
+    sql_on: ${order_info.region} = ${regional_managers.region} ;;
+    relationship: many_to_many
+  }
 }
