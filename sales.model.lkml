@@ -31,10 +31,10 @@ explore: order_info {
     sql_on: ${order_aggregate.order_id} = ${order_info.order_id};;
     relationship: many_to_one
   }
-#   join: sub_category_metrics {
-#     sql_on: ${order_info.sub_category} = ${sub_category_metrics.sub_category} ;;
-#     relationship: many_to_one
-#   }
+  join: sub_category_metrics {
+    sql_on: ${order_info.customer_name} = ${sub_category_metrics.customer_name} ;;
+    relationship: many_to_one
+  }
 }
 
 explore: regional_manager_sales_summary {

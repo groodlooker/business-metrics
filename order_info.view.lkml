@@ -77,7 +77,7 @@ view: order_info {
     sql: extract(week from ${TABLE}.order_date) ;;
     link: {
       label: "Compare by Product"
-      url: "https://localhost:9999/explore/sales/order_info?fields=order_info.order_week_of_yearz,order_info.product_name,order_info.ly_sales,order_info.ty_sales&f[order_info.ytd]=Yes&f[order_info.choose_measure]=sales&f[order_info.order_week_of_yearz]={{value}}&f[order_info.segment]={{order_info.segment._value}}&sorts=order_info.ly_sales+desc&limit=500&column_limit=50"
+      url: "https://localhost:9999/explore/sales/order_info?fields=order_info.order_week_of_the_year,order_info.product_name,order_info.ly_sales,order_info.ty_sales&f[order_info.ytd]=Yes&f[order_info.choose_measure]=sales&f[order_info.order_week_of_the_year]={{value}}&f[order_info.segment]={{order_info.segment._value}}&sorts=order_info.ly_sales+desc&limit=500&column_limit=50"
     }
   }
 
@@ -332,6 +332,17 @@ view: order_info {
     drill_fields: [customer_name, total_sales]
     description: "You can leverage this field with rank and a pivot of region, segment or order year"
     sql: max(${product_name}) ;;
+  }
+
+  measure: most_recent_purchase {
+    hidden: no
+    type: date
+    sql: max(${order_date}) ;;
+  }
+
+  dimension: customer_is_due_for_purchase {
+    type: yesno
+    sql: extract (day from (now() - ${sub_category_metrics.most_recent_subcategory_purchase})) >= 364 ;;
   }
 
   parameter: choose_measure {

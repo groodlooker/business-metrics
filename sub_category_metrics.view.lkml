@@ -9,25 +9,19 @@ view: sub_category_metrics {
         from_field: order_info.segment
       }
       bind_filters: {
-        to_field: order_info.ytd
-        from_field: order_info.ytd
+        to_field: order_info.sub_category
+        from_field: order_info.sub_category
       }
       column: sub_category {}
-      column: percent_diff_in_sales_yoy {}
+      column: customer_name {}
+      column: most_recent_subcategory_purchase {field:order_info.most_recent_purchase}
 #       column: segment {}
     }
   }
-  dimension: sub_category {
+  dimension: sub_category {}
+  dimension: customer_name {
     primary_key: yes
     hidden: yes
   }
-  dimension: percent_diff_in_sales_yoy {
-    value_format: "#,##0.0%"
-    type: number
-    html: {% if value < 0 %}
-    <div><img src="https://localhost:8443/icon-set/down-arrow.png" height=10 width=10>&ensp;{{ rendered_value }}</div>
-    {% else %}
-    <div>{{ rendered_value }}</div>
-    {% endif %};;
-  }
+  dimension: most_recent_subcategory_purchase {}
 }
