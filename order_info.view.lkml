@@ -77,7 +77,7 @@ view: order_info {
     sql: extract(week from ${TABLE}.order_date) ;;
     link: {
       label: "Compare by Product"
-      url: "https://localhost:9999/explore/sales/order_info?fields=order_info.order_week_of_the_year,order_info.product_name,order_info.ly_sales,order_info.ty_sales&f[order_info.ytd]=Yes&f[order_info.choose_measure]=sales&f[order_info.order_week_of_the_year]={{value}}&f[order_info.segment]={{order_info.segment._value}}&sorts=order_info.ly_sales+desc&limit=500&column_limit=50"
+      url: "https://localhost:9999/explore/sales/order_info?fields=order_info.order_week_of_the_year,order_info.product_name,order_info.last_year_sales,order_info.this_year_sales&f[order_info.ytd]=Yes&f[order_info.choose_measure]=sales&f[order_info.order_week_of_the_year]={{value}}&f[order_info.segment]={{order_info.segment._value}}&sorts=order_info.last_year_sales+desc&limit=500&column_limit=50"
     }
   }
 
@@ -168,7 +168,7 @@ view: order_info {
     sql: ${TABLE}.sub_category ;;
     link: {
       label: "Explain the Difference"
-      url: "https://localhost:9999/explore/sales/order_info?fields=order_info.region,order_info.product_name,order_info.difference_in_sales_yoy,order_info.ly_sales,order_info.ty_sales&f[order_info.segment]={{order_info.segment._value}}&f[order_info.ytd]=Yes&f[order_info.sub_category]={{value}}&sorts=order_info.difference_in_sales_yoy,order_info.region,order_info.product_name&limit=5&column_limit=5&vis=%7B%22stacking%22%3A%22%22%2C%22"
+      url: "https://localhost:9999/explore/sales/order_info?fields=order_info.region,order_info.product_name,order_info.difference_in_sales_yoy,order_info.last_year_sales,order_info.this_year_sales&f[order_info.segment]={{order_info.segment._value}}&f[order_info.ytd]=Yes&f[order_info.sub_category]={{value}}&sorts=order_info.difference_in_sales_yoy,order_info.region,order_info.product_name&limit=5&column_limit=5&vis=%7B%22stacking%22%3A%22%22%2C%22"
     }
   }
 
@@ -222,7 +222,7 @@ view: order_info {
     sql: ${order_week_of_year} <= Extract(week from now()) ;;
   }
 
-  measure: ty_sales {
+  measure: this_year_sales {
     type: sum
     value_format_name: usd_0
     label: "This Year {% parameter choose_measure %}"
@@ -256,7 +256,7 @@ view: order_info {
 #   }
 
 
-  measure: ly_sales {
+  measure: last_year_sales {
     type: sum
     value_format_name: usd_0
     label: "Last Year {% parameter choose_measure %}"
@@ -272,7 +272,7 @@ view: order_info {
   measure: difference_in_sales_yoy {
     type: number
     value_format_name: usd_0
-    sql: ${ty_sales} - ${ly_sales} ;;
+    sql: ${this_year_sales} - ${last_year_sales} ;;
     html: <div align="center">{{rendered_value}}</div> ;;
   }
 
@@ -280,7 +280,7 @@ view: order_info {
     type: number
     value_format_name: percent_1
     drill_fields: [product_name, difference_in_sales_yoy]
-    sql:(${ty_sales} - ${ly_sales}) / NULLIF(${ly_sales},0) ;;
+    sql:(${this_year_sales} - ${last_year_sales}) / NULLIF(${last_year_sales},0) ;;
     html: {% if value < 0 %}
     <div><img src="https://localhost:8443/icon-set/down-arrow.png" height=10 width=10>&ensp;{{ rendered_value }}</div>
     {% else %}
@@ -293,7 +293,7 @@ view: order_info {
     value_format_name: usd_0
     label: "Running Sum This Year {% parameter choose_measure %}"
     group_label: "Year over Year Metrics"
-    sql: ${ty_sales} ;;
+    sql: ${this_year_sales} ;;
   }
 
   measure: ly_running_total{
@@ -301,7 +301,7 @@ view: order_info {
     value_format_name: usd_0
     label: "Running Sum Last Year {% parameter choose_measure %}"
     group_label: "Year over Year Metrics"
-    sql: ${ly_sales} ;;
+    sql: ${last_year_sales} ;;
   }
 
   measure: running_diff {
