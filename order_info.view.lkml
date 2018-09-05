@@ -72,6 +72,11 @@ view: order_info {
     sql: ${TABLE}.order_date ;;
   }
 
+  measure: distinct_years {
+    type: count_distinct
+    sql: ${order_year} ;;
+  }
+
   dimension: order_week_of_the_year {
     type: number
     sql: extract(week from ${TABLE}.order_date) ;;

@@ -44,3 +44,29 @@ explore: regional_manager_sales_summary {
     relationship: many_to_many
   }
 }
+
+explore: fiscal_sales {
+  extends: [order_info]
+  join: date_dimension_o {
+    from: date_dimension
+    sql_on: ${order_info.order_date} = ${date_dimension_o.date_pk} ;;
+    relationship: many_to_one
+    type: left_outer
+  }
+  join: date_dimension_s {
+    from: date_dimension
+    sql_on: ${order_info.ship_date} = ${date_dimension_s.date_pk} ;;
+    relationship: many_to_one
+    type: left_outer
+  }
+}
+
+explore: customer_nuances {
+  from: order_info
+  extends: [order_info]
+  join: repeat_purchases {
+    sql_on: ${order_info.customer_name} = ${repeat_purchases.customer_name} ;;
+    relationship: many_to_one
+    type: left_outer
+  }
+}
