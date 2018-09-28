@@ -10,6 +10,18 @@ view: order_info {
     sql: ${TABLE}.category ;;
   }
 
+
+#    {% if orders.created_date._in_query %}
+#       orders
+#     {% elsif orders.created_week._in_query %}
+#       orders_smry_week
+#     {% elsif orders.created_month._in_query %}
+#       orders_smry_month
+#     {% else %}
+#       orders_smry_year  (case when ${category} = 'Technology' then ${sub_category} end)
+#     {% endif %}
+
+
   dimension: city {
     type: string
     view_label: "Customer Location Details"
@@ -173,7 +185,7 @@ view: order_info {
     sql: ${TABLE}.sub_category ;;
     link: {
       label: "Explain the Difference"
-      url: "https://localhost:9999/explore/sales/order_info?fields=order_info.region,order_info.product_name,order_info.difference_in_sales_yoy,order_info.last_year_sales,order_info.this_year_sales&f[order_info.segment]={{order_info.segment._value}}&f[order_info.ytd]=Yes&f[order_info.sub_category]={{value}}&sorts=order_info.difference_in_sales_yoy,order_info.region,order_info.product_name&limit=5&column_limit=5&vis=%7B%22stacking%22%3A%22%22%2C%22"
+#       url: "https://localhost:9999/explore/sales/order_info?fields=order_info.region,order_info.product_name,order_info.difference_in_sales_yoy,order_info.last_year_sales,order_info.this_year_sales&f[order_info.segment]={{order_info.segment._value}}&f[order_info.ytd]=Yes&f[order_info.sub_category]={{value}}&sorts=order_info.difference_in_sales_yoy,order_info.region,order_info.product_name&limit=5&column_limit=5&vis=%7B%22stacking%22%3A%22%22%2C%22"
     }
   }
 
@@ -329,6 +341,11 @@ view: order_info {
     label: "Count of Customers (histogram)"
     sql: ${customer_name} ;;
     drill_fields: [customer_name]
+  }
+
+  dimension: customer_ranked_in_top_5 {
+    type: yesno
+    sql: ${customer_rank.customer_rank_by_year_region} < 6 ;;
   }
 
   measure: product_max {

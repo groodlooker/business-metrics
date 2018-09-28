@@ -35,6 +35,12 @@ explore: order_info {
     sql_on: ${order_info.customer_name} = ${sub_category_metrics.customer_name} ;;
     relationship: many_to_one
   }
+  join: customer_rank {
+    sql_on: ${order_info.customer_name} = ${customer_rank.customer_name}
+    and ${order_info.order_year} = ${customer_rank.order_year}
+    and ${order_info.region} = ${customer_rank.region};;
+    relationship: many_to_one
+  }
 }
 
 explore: regional_manager_sales_summary {
