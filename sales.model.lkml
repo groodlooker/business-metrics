@@ -9,6 +9,11 @@ datagroup: sales_default_datagroup {
   max_cache_age: "24 hour"
 }
 
+access_grant: true_heir_to_the_throne {
+  allowed_values: ["Targaryen","All"]
+  user_attribute: house
+}
+
 persist_with: sales_default_datagroup
 
 explore: order_info {
@@ -19,24 +24,29 @@ explore: order_info {
     relationship: many_to_many
   }
   join: orders_hist {
+    required_access_grants: [true_heir_to_the_throne]
     sql_on: ${order_info.customer_name} = ${orders_hist.customer_name} ;;
     relationship: many_to_one
   }
   join: product_rank_info {
+    required_access_grants: [true_heir_to_the_throne]
     sql_on: ${order_info.product_name} = ${product_rank_info.product_name}
     and ${order_info.region} = ${product_rank_info.region}
     and ${order_info.order_year} = ${product_rank_info.order_year};;
     relationship: many_to_one
   }
   join: order_aggregate {
+    required_access_grants: [true_heir_to_the_throne]
     sql_on: ${order_aggregate.order_id} = ${order_info.order_id};;
     relationship: many_to_one
   }
   join: sub_category_metrics {
+    required_access_grants: [true_heir_to_the_throne]
     sql_on: ${order_info.customer_name} = ${sub_category_metrics.customer_name} ;;
     relationship: many_to_one
   }
   join: customer_rank {
+    required_access_grants: [true_heir_to_the_throne]
     sql_on: ${order_info.customer_name} = ${customer_rank.customer_name}
     and ${order_info.order_year} = ${customer_rank.order_year}
     and ${order_info.region} = ${customer_rank.region};;
