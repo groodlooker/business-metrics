@@ -20,6 +20,7 @@ explore: order_info {
   view_name: order_info
   from: order_info
   join: cust_order_patterns {
+    required_access_grants: [true_heir_to_the_throne]
     sql_on: ${order_info.customer_name} = ${cust_order_patterns.customer_name} ;;
     relationship: many_to_many
   }
