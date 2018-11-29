@@ -3,6 +3,7 @@ connection: "postgres-sales-transactions"
 # include all the views
 include: "*.view"
 
+
 datagroup: sales_default_datagroup {
   sql_trigger: select max(current_date) ;;
   max_cache_age: "24 hour"

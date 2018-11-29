@@ -72,9 +72,11 @@ view: order_info {
       raw,
       date,
       day_of_year,
+      day_of_week,
       week,
       week_of_year,
       month,
+      day_of_month,
       month_name,
       quarter,
       year
@@ -117,6 +119,7 @@ view: order_info {
 
   dimension: product_name {
     type: string
+    drill_fields: [customer_name,total_sales,total_profit]
     sql: ${TABLE}.product_name ;;
   }
 
