@@ -33,7 +33,11 @@ explore: order_info {
     required_access_grants: [true_heir_to_the_throne]
     sql_on: ${order_info.product_name} = ${product_rank_info.product_name}
     and ${order_info.region} = ${product_rank_info.region}
-    and ${order_info.order_year} = ${product_rank_info.order_year};;
+    and ${order_info.segment} = ${product_rank_info.segment}
+    {% if order_info.category._in_query %}
+    and ${order_info.category} = ${product_rank_info.category}
+    {% else %} {% endif %}
+    ;;
     relationship: many_to_one
   }
   join: order_aggregate {

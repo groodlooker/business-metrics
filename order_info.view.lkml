@@ -77,6 +77,7 @@ view: order_info {
       week_of_year,
       month,
       day_of_month,
+      month_num,
       month_name,
       quarter,
       year
@@ -224,7 +225,7 @@ view: order_info {
     type: yesno
     hidden: yes
     group_label: "Year over Year Metrics"
-    sql: ${order_year} = Extract(year from now()) - 1 ;;
+    sql: ${order_year} = Extract(year from now()) - 2 ;;
 
   }
 
@@ -232,7 +233,7 @@ view: order_info {
     type: yesno
     hidden: yes
     group_label: "Year over Year Metrics"
-    sql: ${order_year} = Extract(year from now()) ;;
+    sql: ${order_year} = Extract(year from now()) - 1 ;;
 
   }
 

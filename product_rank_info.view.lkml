@@ -1,18 +1,17 @@
 # If necessary, uncomment the line below to include explore_source.
 # include: "sales.model.lkml"
-
 view: product_rank_info {
   derived_table: {
     datagroup_trigger: sales_default_datagroup
     indexes: ["product_name"]
     explore_source: order_info {
-      column: region {}
-      column: order_year {}
       column: segment {}
+      column: region {}
       column: product_name {}
       column: total_sales {}
+      column: category {}
       derived_column: regional_rank {
-        sql: RANK() OVER(partition by order_year, region, segment order by total_sales desc) ;;
+        sql: RANK() OVER(partition by region, segment {% if order_info.category._in_query %} ,category {% else %} {% endif %} order by total_sales desc) ;;
       }
 #       derived_column: segment_rank {
 #         sql: RANK() OVER(PARTITION BY segment ORDER BY total_sales desc) ;;
@@ -23,9 +22,6 @@ view: product_rank_info {
     }
   }
 
-  dimension: order_year {
-    hidden: yes
-  }
   dimension: region {
     hidden: yes
   }
@@ -35,6 +31,7 @@ view: product_rank_info {
   dimension: product_name {
     hidden: yes
   }
+  dimension: category {}
   dimension: total_sales {
     hidden: yes
     value_format: "$#,##0"
