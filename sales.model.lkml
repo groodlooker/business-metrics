@@ -5,8 +5,8 @@ include: "*.view"
 
 
 datagroup: sales_default_datagroup {
-  sql_trigger: select max(current_date) ;;
-  max_cache_age: "24 hour"
+  sql_trigger: select CURRENT_DATETIME() ;;
+  max_cache_age: "0 seconds"
 }
 
 access_grant: true_heir_to_the_throne {
@@ -17,6 +17,7 @@ access_grant: true_heir_to_the_throne {
 persist_with: sales_default_datagroup
 
 explore: order_info {
+  persist_with: sales_default_datagroup
   view_name: order_info
   from: order_info
   join: cust_order_patterns {
@@ -33,7 +34,12 @@ explore: order_info {
     required_access_grants: [true_heir_to_the_throne]
     sql_on: ${order_info.product_name} = ${product_rank_info.product_name}
     and ${order_info.region} = ${product_rank_info.region}
+    {% if order_info.category._in_query %}
     and ${order_info.segment} = ${product_rank_info.segment}
+    {% else %} {% endif %}
+    {% if order_info.state._in_query %}
+    and ${order_info.state} = ${product_rank_info.state}
+    {% else %} {% endif %}
     {% if order_info.category._in_query %}
     and ${order_info.category} = ${product_rank_info.category}
     {% else %} {% endif %}

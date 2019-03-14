@@ -187,10 +187,13 @@ view: order_info {
   dimension: sub_category {
     type: string
     sql: ${TABLE}.sub_category ;;
-    link: {
-      label: "Explain the Difference"
-#       url: "https://localhost:9999/explore/sales/order_info?fields=order_info.region,order_info.product_name,order_info.difference_in_sales_yoy,order_info.last_year_sales,order_info.this_year_sales&f[order_info.segment]={{order_info.segment._value}}&f[order_info.ytd]=Yes&f[order_info.sub_category]={{value}}&sorts=order_info.difference_in_sales_yoy,order_info.region,order_info.product_name&limit=5&column_limit=5&vis=%7B%22stacking%22%3A%22%22%2C%22"
-    }
+    label: "{% if order_info.category._in_query %} (Category) Sub Category
+       {% else %} Sub Categories
+    {% endif %}"
+#     link: {
+#       label: "Explain the Difference"
+# #       url: "https://localhost:9999/explore/sales/order_info?fields=order_info.region,order_info.product_name,order_info.difference_in_sales_yoy,order_info.last_year_sales,order_info.this_year_sales&f[order_info.segment]={{order_info.segment._value}}&f[order_info.ytd]=Yes&f[order_info.sub_category]={{value}}&sorts=order_info.difference_in_sales_yoy,order_info.region,order_info.product_name&limit=5&column_limit=5&vis=%7B%22stacking%22%3A%22%22%2C%22"
+#     }
   }
 
   measure: count {
@@ -343,7 +346,7 @@ view: order_info {
   measure: customer_cnt {
     type: count_distinct
     label: "Count of Customers (histogram)"
-    sql: ${customer_name} ;;
+    sql: ${customer_name}
     drill_fields: [customer_name]
   }
 
