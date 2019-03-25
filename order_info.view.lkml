@@ -10,6 +10,28 @@ view: order_info {
     sql: ${TABLE}.category ;;
   }
 
+  filter: previous_period_filter {
+    type: date
+    description: "Use this filter for period analysis"
+  }
+
+  dimension: period_result {
+    type: date
+    sql: {% date_start previous_period_filter %} ;;
+  }
+
+  dimension: period_result_end {
+    type: date
+    sql: {% date_end previous_period_filter %} ;;
+  }
+
+  dimension: cur_time {
+    type: date
+    sql: CURRENT_TIMESTAMP ;;
+  }
+
+
+
 
 #    {% if orders.created_date._in_query %}
 #       orders
