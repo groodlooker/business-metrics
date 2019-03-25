@@ -1,0 +1,12 @@
+{
+  "status": "ready",
+  "sectionsEnabled": [ "search" , "social", "linkedin", "bing", "all_sources" ],
+  "fields": {
+    "adwords_schema": "adwords_generated_2",
+    "adwords_etl": "fivetran",
+    "facebook_schema": "facebook_ads_generated",
+    "facebook_etl": "fivetran",
+    "facebook_schema": "linkedin_generated",
+    "facebook_etl": "fivetran"
+  }
+}
