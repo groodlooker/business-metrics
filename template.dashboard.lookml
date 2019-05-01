@@ -49,7 +49,7 @@
       collection_id: 5591d8d1-6b49-4f8e-bafa-b874d82f8eb7
       palette_id: 18d0c733-1d87-42a9-934f-4ba8ef81d736
     custom_color_enabled: true
-    custom_color: "#149888"
+    custom_color: "black"
     show_single_value_title: true
     single_value_title: Home Office
     show_comparison: true
