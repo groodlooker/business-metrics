@@ -43,6 +43,11 @@ view: order_info {
 #       orders_smry_year  (case when ${category} = 'Technology' then ${sub_category} end)
 #     {% endif %}
 
+  measure: sales_formatter {
+    sql: ${sales} ;;
+    html:  <div style="font-size:4em;">{{rendered_value}}</div> ;;
+  }
+
 
   dimension: city {
     type: string

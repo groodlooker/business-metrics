@@ -2,6 +2,7 @@ connection: "postgres-sales-transactions"
 
 # include all the views
 include: "*.view"
+include: "*.dashboard.lookml"
 
 
 datagroup: sales_default_datagroup {
