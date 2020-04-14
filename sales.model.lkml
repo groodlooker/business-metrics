@@ -2,7 +2,7 @@ connection: "postgres-sales-transactions"
 
 # include all the views
 include: "*.view"
-include: "*.dashboard.lookml"
+# include: "*.dashboard.lookml"
 
 
 datagroup: sales_default_datagroup {
@@ -17,54 +17,54 @@ access_grant: true_heir_to_the_throne {
 
 persist_with: sales_default_datagroup
 
-explore: order_info {
-  persist_with: sales_default_datagroup
-  view_name: order_info
-  from: order_info
-  join: cust_order_patterns {
-    required_access_grants: [true_heir_to_the_throne]
-    sql_on: ${order_info.customer_name} = ${cust_order_patterns.customer_name} ;;
-    relationship: many_to_many
-  }
-  join: orders_hist {
-    required_access_grants: [true_heir_to_the_throne]
-    sql_on: ${order_info.customer_name} = ${orders_hist.customer_name} ;;
-    relationship: many_to_one
-  }
-  join: product_rank_info {
-    required_access_grants: [true_heir_to_the_throne]
-    sql_on: ${order_info.product_name} = ${product_rank_info.product_name}
-    and ${order_info.region} = ${product_rank_info.region}
-    {% if order_info.category._in_query %}
-    and ${order_info.segment} = ${product_rank_info.segment}
-    {% else %} {% endif %}
-    {% if order_info.state._in_query %}
-    and ${order_info.state} = ${product_rank_info.state}
-    {% else %} {% endif %}
-    {% if order_info.category._in_query %}
-    and ${order_info.category} = ${product_rank_info.category}
-    {% else %} {% endif %}
-    ;;
-    relationship: many_to_one
-  }
-  join: order_aggregate {
-    required_access_grants: [true_heir_to_the_throne]
-    sql_on: ${order_aggregate.order_id} = ${order_info.order_id};;
-    relationship: many_to_one
-  }
-  join: sub_category_metrics {
-    required_access_grants: [true_heir_to_the_throne]
-    sql_on: ${order_info.customer_name} = ${sub_category_metrics.customer_name} ;;
-    relationship: many_to_one
-  }
-  join: customer_rank {
-    required_access_grants: [true_heir_to_the_throne]
-    sql_on: ${order_info.customer_name} = ${customer_rank.customer_name}
-    and ${order_info.order_year} = ${customer_rank.order_year}
-    and ${order_info.region} = ${customer_rank.region};;
-    relationship: many_to_one
-  }
-}
+# explore: order_info {
+#   persist_with: sales_default_datagroup
+#   view_name: order_info
+#   from: order_info
+#   join: cust_order_patterns {
+#     required_access_grants: [true_heir_to_the_throne]
+#     sql_on: ${order_info.customer_name} = ${cust_order_patterns.customer_name} ;;
+#     relationship: many_to_many
+#   }
+#   join: orders_hist {
+#     required_access_grants: [true_heir_to_the_throne]
+#     sql_on: ${order_info.customer_name} = ${orders_hist.customer_name} ;;
+#     relationship: many_to_one
+#   }
+#   join: product_rank_info {
+#     required_access_grants: [true_heir_to_the_throne]
+#     sql_on: ${order_info.product_name} = ${product_rank_info.product_name}
+#     and ${order_info.region} = ${product_rank_info.region}
+#     {% if order_info.category._in_query %}
+#     and ${order_info.segment} = ${product_rank_info.segment}
+#     {% else %} {% endif %}
+#     {% if order_info.state._in_query %}
+#     and ${order_info.state} = ${product_rank_info.state}
+#     {% else %} {% endif %}
+#     {% if order_info.category._in_query %}
+#     and ${order_info.category} = ${product_rank_info.category}
+#     {% else %} {% endif %}
+#     ;;
+#     relationship: many_to_one
+#   }
+#   join: order_aggregate {
+#     required_access_grants: [true_heir_to_the_throne]
+#     sql_on: ${order_aggregate.order_id} = ${order_info.order_id};;
+#     relationship: many_to_one
+#   }
+#   join: sub_category_metrics {
+#     required_access_grants: [true_heir_to_the_throne]
+#     sql_on: ${order_info.customer_name} = ${sub_category_metrics.customer_name} ;;
+#     relationship: many_to_one
+#   }
+#   join: customer_rank {
+#     required_access_grants: [true_heir_to_the_throne]
+#     sql_on: ${order_info.customer_name} = ${customer_rank.customer_name}
+#     and ${order_info.order_year} = ${customer_rank.order_year}
+#     and ${order_info.region} = ${customer_rank.region};;
+#     relationship: many_to_one
+#   }
+# }
 
 explore: regional_manager_sales_summary {
   extends: [order_info]
@@ -97,5 +97,29 @@ explore: customer_nuances {
     sql_on: ${order_info.customer_name} = ${repeat_purchases.customer_name} ;;
     relationship: many_to_one
     type: left_outer
+  }
+}
+
+explore: order_info {
+  persist_with: sales_default_datagroup
+  view_name: order_info
+  from: order_info
+  join: orders_hist {
+    sql_on: ${order_info.customer_name} = ${orders_hist.customer_name} ;;
+    relationship: many_to_one
+  }
+  join: order_aggregate {
+    sql_on: ${order_aggregate.order_id} = ${order_info.order_id};;
+    relationship: many_to_one
+  }
+  join: sub_category_metrics {
+    sql_on: ${order_info.customer_name} = ${sub_category_metrics.customer_name} ;;
+    relationship: many_to_one
+  }
+  join: customer_rank {
+    sql_on: ${order_info.customer_name} = ${customer_rank.customer_name}
+          and ${order_info.order_year} = ${customer_rank.order_year}
+          and ${order_info.region} = ${customer_rank.region};;
+    relationship: many_to_one
   }
 }

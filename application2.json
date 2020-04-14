@@ -1,0 +1,1150 @@
+{
+  "theme": {
+    "colors": {
+      "primary": "#6AA9EF",
+      "primaryDark": "#6297D1",
+      "primaryDarker": "#4E7DB0"
+    }
+  },
+  "name": "Sales Analytics",
+  "tables": [
+    {
+      "id": "sales_rep",
+      "name": "Sales Rep",
+      "model": "sales_analytics",
+      "view": "opportunity",
+      "params": "f[opportunity.close_date]=1+years&f[quota.name]=-NULL&sorts=opportunity.total_closed_won_amount_ytd+desc&limit=1000",
+      "keyColumn": "quota.name",
+      "columns": [
+        {
+          "name": "Sales Rep",
+          "field": "quota.name"
+        },
+        {
+          "name": "Bookings - YTD",
+          "field": "opportunity.total_closed_won_amount_ytd"
+        },
+        {
+          "name": "Lifetime Bookings",
+          "field": "opportunity.total_closed_won_new_business_amount"
+        },
+        {
+          "name": "Current Customers",
+          "field": "account.count_customers"
+        }
+      ]
+    },
+    {
+      "id": "managers",
+      "name": "Managers",
+      "model": "sales_analytics",
+      "view": "opportunity",
+      "params": "f[opportunity.close_date]=1+years&sorts=opportunity.count_new_business_won+desc&limit=1000",
+      "keyColumn": "opportunity_owner.manager",
+      "columns": [
+        {
+          "name": "Manager Name",
+          "field": "opportunity_owner.manager"
+        },
+        {
+          "name": "Team Bookings - YTD",
+          "field": "opportunity.total_closed_won_amount_ytd"
+        },
+        {
+          "name": "New Business Wins - YTD",
+          "field": "opportunity.count_new_business_won_ytd"
+        },
+        {
+          "name": "Total Opps Won - YTD",
+          "field": "opportunity.count_won_ytd"
+        }
+      ]
+    },
+    {
+      "id": "opportunity",
+      "name": "Opportunities",
+      "model": "sales_analytics",
+      "view": "opportunity",
+      "params": "f[quota.name]=-NULL&sorts=opportunity.name+desc&limit=1000",
+      "keyColumn": "opportunity.name",
+      "columns": [
+        {
+          "name": "Opportunity",
+          "field": "opportunity.name"
+        },
+        {
+          "name": "Created Date",
+          "field": "account.created_date"
+        },
+        {
+          "name": "Total Bookings (YTD)",
+          "field": "opportunity.total_closed_won_amount_ytd"
+        }
+
+      ]
+    }
+  ],
+  "navigation": {
+    "home": {
+      "title": "Home",
+      "path": "",
+      "icon": "home",
+      "description": "Sales Leadership Overview"
+    },
+    "sections": [
+      {
+        "title": "Sales Management",
+        "key": "sales-management",
+        "items": [
+          {
+            "title": "Pipeline Overview",
+            "path": "sales-management-pipeline_management",
+            "icon": "sales-analytics/pipeline-management"
+          },
+          {
+            "title": "Pipeline Velocity",
+            "path": "sales-management-pipeline-velocity",
+            "icon": "sales-analytics/velocity"
+          },
+          {
+            "title": "Manager Overview",
+            "path": "sales-management-manager-overview",
+            "icon": "sales-analytics/rep-overview"
+          },
+          {
+            "title": "Flow",
+            "path": "sales-management-flow",
+            "icon": "sales-analytics/flow"
+          },
+          {
+            "title": "Progression",
+            "path": "sales-management-progression",
+            "icon": "sales-analytics/progression"
+          }
+        ]
+      },
+      {
+        "title": "Sales Representatives",
+        "key": "sales_rep",
+        "items": [
+          {
+            "title": "Performance",
+            "path": "sales_rep-sales_rep_performance",
+            "icon": "sales-analytics/performance"
+          },
+          {
+            "title": "Leaderboard",
+            "path": "sales_rep-leaderboard",
+            "icon": "sales-analytics/leaderboard"
+          },
+          {
+            "title": "Ramping",
+            "path": "sales_rep-ramping",
+            "icon": "sales-analytics/ramping"
+          },
+          {
+            "title": "Opportunities",
+            "path": "sales_rep-opportunities",
+            "icon": "sales-analytics/opportunities"
+          },
+          {
+            "title": "Leads",
+            "path": "sales_rep-leads",
+            "icon": "sales-analytics/leads"
+          },
+          {
+            "title": "Accounts",
+            "path": "sales_rep-accounts",
+            "icon": "sales-analytics/accounts"
+          }
+        ]
+      },
+      {
+        "title": "Lookups",
+        "key": "lookups",
+        "items": [
+          {
+            "title": "Account",
+            "path": "lookups-account_lookup",
+            "icon": "sales-analytics/customer-lookup"
+          },
+          {
+            "title": "Opportunity",
+            "path": "lookups-opportunity_lookup",
+            "icon": "sales-analytics/opportunities"
+          }
+        ]
+      },
+      {
+        "title": "Reports",
+        "key": "reports",
+        "items": [
+          {
+            "title": "Opportunities",
+            "path": "reports-opportunities",
+            "icon": "sales-analytics/all-opportunities"
+          },
+          {
+            "title": "Leads",
+            "path": "reports-active_leads",
+            "icon": "sales-analytics/all-leads"
+          },
+          {
+            "title": "Funnel",
+            "path": "reports-funnel",
+            "icon": "sales-analytics/funnel"
+          }
+        ]
+      }
+    ]
+  },
+  "pages": [
+    {
+      "path": "",
+      "title": "Sales Leadership Overview",
+      "type": "dashboardCollection",
+      "filters": [
+        {
+          "field": "opportunity_owner.name",
+          "dashboardAlias": "Sales Rep",
+          "name": "Sales Rep",
+          "type": "Table",
+          "defaultValue": "",
+          "tableID": "sales_rep"
+        },
+        {
+          "autoSuggest": {
+            "model": "sales_analytics",
+            "view": "opportunity"
+          },
+          "field": "opportunity_owner.manager",
+          "name": "Manager",
+          "dashboardAlias": "Manager",
+          "type": "Select"
+        },
+        {
+          "autoSuggest": {
+            "model": "sales_analytics",
+            "view": "opportunity"
+          },
+          "field": "opportunity_owner.ae_region",
+          "name": "Region",
+          "type": "Select",
+          "dashboardAlias": "Region"
+        },
+        {
+          "autoSuggest": {
+            "model": "sales_analytics",
+            "view": "opportunity"
+          },
+          "field": "opportunity.type",
+          "name": "Opportunity Type",
+          "type": "Select",
+          "dashboardAlias": "Opportunity Type"
+        }
+
+      ],
+      "dashboardCollection": {
+        "default": "sales_leadership_overview",
+        "dashboards": [
+          {
+            "lookmlID": "sales_analytics::sales_leadership_quarter_overview",
+            "name": "Sales & Marketing Leadership",
+            "permalink": "sales_leadership_overview"
+          }
+        ]
+      }
+    },
+    {
+      "path": "reports-active_leads",
+      "title": "Active Leads",
+      "type": "lookCollection",
+      "description": "Create your new opportunities using up-to-date lead information.",
+      "filters": [
+        {
+          "autoSuggest": {
+            "model": "sales_analytics",
+            "view": "lead"
+          },
+          "field": "lead_owner.name",
+          "name": "Lead Owner",
+          "type": "Select"
+        }
+      ],
+      "lookCollection": {
+        "looks": [
+          {
+            "description": "",
+            "exploreParams": "sales_analytics/lead?fields=lead.name,lead.company,lead.days_as_lead,lead.status,lead.last_activity_date,task.calls,task.emails,task.meetings&f[lead.is_converted]=No&f[lead_owner.name]=Kevin+Heller&sorts=lead.status+desc&limit=50&column_limit=50&vis=%7B%22type%22%3A%22table%22%2C%22show_view_names%22%3Afalse%2C%22show_row_numbers%22%3Atrue%2C%22truncate_column_names%22%3Afalse%2C%22subtotals_at_bottom%22%3Afalse%2C%22hide_totals%22%3Afalse%2C%22hide_row_totals%22%3Afalse%2C%22table_theme%22%3A%22gray%22%2C%22limit_displayed_rows%22%3Afalse%2C%22enable_conditional_formatting%22%3Afalse%2C%22conditional_formatting_include_totals%22%3Afalse%2C%22conditional_formatting_include_nulls%22%3Afalse%2C%22series_types%22%3A%7B%7D%7D&filter_config=%7B%22lead.is_converted%22%3A%5B%7B%22type%22%3A%22is%22%2C%22values%22%3A%5B%7B%22constant%22%3A%22No%22%7D%2C%7B%7D%5D%2C%22id%22%3A0%2C%22error%22%3Afalse%7D%5D%2C%22lead_owner.name%22%3A%5B%7B%22type%22%3A%22%3D%22%2C%22values%22%3A%5B%7B%22constant%22%3A%22Kevin+Heller%22%7D%2C%7B%7D%5D%2C%22id%22%3A0%2C%22error%22%3Afalse%7D%5D%7D&origin=share-expanded",
+            "name": "Active Leads",
+            "permalink": "active_leads",
+            "filters": []
+          }
+        ]
+      }
+    },
+    {
+      "path": "reports-contacts",
+      "title": "Contacts",
+      "type": "lookCollection",
+      "description": "Get in touch with contacts at your accounts.",
+      "filters": [
+        {
+          "autoSuggest": {
+            "model": "sales_analytics",
+            "view": "contact"
+          },
+          "field": "contact_owner.name",
+          "name": "Contact Owner",
+          "type": "Select"
+        }
+      ],
+      "lookCollection": {
+        "looks": [
+          {
+            "description": "",
+            "exploreParams": "sales_analytics/contact?fields=contact.name,contact.title,contact.email,account.logo,account.name,account.type,contact.description,contact.department,contact.mobile_phone&sorts=contact.name&limit=500&vis=%7B%22type%22%3A%22table%22%2C%22series_types%22%3A%7B%7D%7D&filter_config=%7B%7D&dynamic_fields=%5B%5D&origin=share-expanded",
+            "name": "Contacts",
+            "permalink": "contacts",
+            "filters": []
+          }
+        ]
+      }
+    },
+    {
+      "path": "reports-accounts",
+      "title": "Accounts",
+      "type": "lookCollection",
+      "description": "Get a view of your current customers.",
+      "filters": [
+        {
+          "field": "opportunity_owner.name",
+          "name": "Sales Rep",
+          "type": "Table",
+          "tableID": "sales_rep"
+        }
+      ],
+      "lookCollection": {
+        "looks": [
+          {
+            "description": "",
+            "exploreParams": "sales_analytics/account?fields=account.name,account.logo,account.website,account.type,account.account_source,account.annual_revenue,account.business_segment,account.days_as_customer&f[account.is_customer]=Yes&sorts=account.name&limit=500&vis=%7B%22type%22%3A%22table%22%2C%22series_types%22%3A%7B%7D%7D&filter_config=%7B%22account.is_customer%22%3A%5B%7B%22type%22%3A%22is%22%2C%22values%22%3A%5B%7B%22constant%22%3A%22Yes%22%7D%2C%7B%7D%5D%2C%22id%22%3A0%2C%22error%22%3Afalse%7D%5D%7D&dynamic_fields=%5B%5D&origin=share-expanded",
+            "name": "Accounts",
+            "permalink": "accounts",
+            "filters": []
+          },
+          {
+            "description": "",
+            "exploreParams": "sales_analytics/account?fields=account.name,opportunity.name,account.logo,opportunity.type,account.website,account.type,opportunity.created_date,opportunity.close_date,opportunity.custom_stage_name,opportunity.next_step&f[account.is_customer]=Yes&f[opportunity.is_closed]=No&sorts=account.name&limit=500&vis=%7B%22type%22%3A%22table%22%2C%22series_types%22%3A%7B%7D%7D&filter_config=%7B%22account.is_customer%22%3A%5B%7B%22type%22%3A%22is%22%2C%22values%22%3A%5B%7B%22constant%22%3A%22Yes%22%7D%2C%7B%7D%5D%2C%22id%22%3A0%2C%22error%22%3Afalse%7D%5D%2C%22opportunity.is_closed%22%3A%5B%7B%22type%22%3A%22is%22%2C%22values%22%3A%5B%7B%22constant%22%3A%22No%22%7D%2C%7B%7D%5D%2C%22id%22%3A2%2C%22error%22%3Afalse%7D%5D%7D&dynamic_fields=%5B%5D&origin=share-expanded",
+            "name": "Have Open Opps",
+            "permalink": "accounts_with_open_opportunities",
+            "filters": []
+          }
+        ]
+      }
+    },
+    {
+      "path": "sales_rep-sales_rep_performance",
+      "title": "Performance",
+      "type": "dashboardCollection",
+      "filters": [
+        {
+          "field": "opportunity_owner.name",
+          "dashboardAlias": "Sales Rep",
+          "name": "Sales Rep",
+          "type": "Table",
+          "required": true,
+          "multiple": false,
+          "defaultValue": "",
+          "tableID": "sales_rep"
+        }
+      ],
+      "dashboardCollection": {
+        "dashboards": [
+          {
+            "lookmlID": "sales_analytics::sales_rep_performance",
+            "name": "Sales Rep Performance",
+            "permalink": "sales_rep_performance"
+          }
+        ]
+      }
+    },
+    {
+      "path": "sales_rep-ramping",
+      "title": "Ramping",
+      "type": "dashboardCollection",
+      "filters": [
+        {
+          "field": "opportunity_owner.name",
+          "dashboardAlias": "Sales Rep",
+          "name": "Sales Rep",
+          "type": "Table",
+          "tableID": "sales_rep",
+          "required":"true",
+          "multiple": false
+        }
+      ],
+      "dashboardCollection": {
+        "dashboards": [
+          {
+            "lookmlID": "sales_analytics::sales_rep_ramping",
+            "name": "Sales Rep Ramping",
+            "permalink": "sales_rep_ramping"
+          }
+        ]
+      }
+    },
+    {
+      "path": "sales-management-pipeline_management",
+      "title": "Pipeline Overview",
+      "type": "dashboardCollection",
+      "filters": [
+        {
+          "field": "opportunity_owner.name",
+          "dashboardAlias": "Sales Rep",
+          "name": "Sales Rep",
+          "type": "Table",
+          "tableID": "sales_rep",
+          "required": false,
+          "multiple": true
+        },
+        {
+          "autoSuggest": {
+            "model": "sales_analytics",
+            "view": "opportunity"
+          },
+          "field": "opportunity_owner.manager",
+          "name": "Manager",
+          "dashboardAlias": "Manager",
+          "type": "Select"
+        }
+      ],
+      "dashboardCollection": {
+        "default": "pipeline_management",
+        "dashboards": [
+          {
+            "lookmlID": "sales_analytics::pipeline_management",
+            "name": "Pipeline Management",
+            "permalink": "pipeline_management"
+          }
+        ]
+      }
+    },
+    {
+      "path": "sales-management-pipeline-velocity",
+      "title": "Pipeline Velocity",
+      "type": "dashboardCollection",
+      "filters": [
+        {
+          "defaultValue": "9 month",
+          "field": "account.created_date",
+          "name": "Time Frame",
+          "type": "TimeFrame",
+          "dashboardAlias": "Time Frame"
+        },
+        {
+          "autoSuggest": {
+            "model": "sales_analytics",
+            "view": "opportunity",
+            "field": "opportunity_owner.manager"
+          },
+          "facetedBy": [
+            "account.created_date"
+          ],
+          "name": "Manager",
+          "dashboardAlias": "Manager",
+          "type": "Select",
+          "tableID": "managers"
+        }
+      ],
+      "dashboardCollection": {
+        "default": "pipeline_velocity",
+        "dashboards": [
+          {
+            "lookmlID": "sales_analytics::pipeline_velocity",
+            "name": "Pipeline Velocity",
+            "permalink": "pipeline_velocity"
+          }
+        ]
+      }
+    },
+    {
+      "path": "sales-management-progression",
+      "title": "Progression",
+      "type": "crossFilter",
+      "filters": [
+        {
+          "autoSuggest": {
+            "model": "sales_analytics",
+            "view": "waterfall_derived",
+            "field": "waterfall_derived.stage_name"
+          },
+          "field": "waterfall_derived.stage_name",
+          "name": "Stage",
+          "type": "Select"
+        },
+        {
+          "autoSuggest": {
+            "model": "sales_analytics",
+            "view": "waterfall_derived",
+            "field": "waterfall_derived.business_segment"
+          },
+          "field": "waterfall_derived.business_segment",
+          "name": "Segment",
+          "type": "Select"
+        },
+        {
+          "autoSuggest": {
+            "model": "sales_analytics",
+            "view": "waterfall_derived",
+            "field": "waterfall_derived.source"
+          },
+          "field": "waterfall_derived.source",
+          "name": "Source",
+          "type": "Select"
+        },
+        {
+          "autoSuggest": {
+            "model": "sales_analytics",
+            "view": "waterfall_derived",
+            "field": "waterfall_derived.owner"
+          },
+          "field": "waterfall_derived.owner",
+          "name": "Representative",
+          "type": "Select"
+        }
+
+      ],
+      "crossFilter": {
+        "entityLabel": "deal",
+        "model": "sales_analytics",
+        "view": "waterfall_derived",
+        "fields": [
+          "opportunity",
+          "owner",
+          "stage_name",
+          "source",
+          "business_segment",
+          "is_pipeline",
+          "total_amount",
+          "starting_pipeline",
+          "new_opportunities",
+          "date_changed_in",
+          "date_changed_out",
+          "value_changed_increased",
+          "value_change_decreased",
+          "closed_lost",
+          "closed_won",
+          "end_pipeline"
+        ],
+        "tiles": [
+          {
+            "type": "waterfall",
+            "options": {
+              "filter": "stageContribution",
+              "groups": [
+                "starting_pipeline",
+                "new_opportunities",
+                "date_changed_in",
+                "date_changed_out",
+                "value_changed_increased",
+                "value_change_decreased",
+                "closed_lost",
+                "closed_won",
+                "end_pipeline"
+              ],
+              "colors": {
+                "closed_lost": "#F7968D",
+                "closed_won": "#81eb99"
+              }
+            },
+            "elevation": false,
+            "fullWidth": true
+          },
+          {
+            "type": "pie",
+            "title": "Source",
+            "options": {
+              "group": "source",
+              "weight": "total_amount"
+            }
+          },
+          {
+            "type": "pie",
+            "title": "Stage",
+            "options": {
+              "group": "stage_name",
+              "weight": "total_amount",
+              "colorPosition": 3
+            }
+          },
+          {
+            "type": "pie",
+            "title": "Segment",
+            "options": {
+              "group": "business_segment",
+              "weight": "total_amount",
+              "colorPosition": 6
+            }
+          },
+          {
+            "type": "stackedbar",
+            "title": "Representative",
+            "options": {
+              "group": "owner",
+              "pivot": "stage_name"
+            }
+          },
+          {
+            "type": "grid",
+            "options": {
+              "fields": [
+                "stage_name",
+                "opportunity",
+                "owner",
+                "is_pipeline",
+                "business_segment",
+                "total_amount"
+              ],
+              "sort": {
+                "direction": "desc",
+                "field": "total_amount"
+              }
+            },
+            "fullWidth": true,
+            "height": "large"
+          }
+        ]
+      },
+
+      "dashboardCollection": {
+        "default": "deal_progression",
+        "dashboards": [
+          {
+            "lookmlID": "sales_analytics::deal_progression",
+            "name": "deal_progression",
+            "permalink": "deal_progression"
+          }
+        ]
+      }
+    },
+    {
+      "path": "sales-management-flow",
+      "title": "Flow",
+      "type": "crossFilter",
+      "filters": [
+        {
+          "autoSuggest": {
+            "model": "sales_analytics",
+            "view": "opp_history_waterfall_derived"
+          },
+          "field": "opp_history_waterfall_derived.sankey_forecast_first",
+          "name": "Pipeline Entry",
+          "type": "Select"
+        },
+        {
+          "autoSuggest": {
+            "model": "sales_analytics",
+            "view": "opp_history_waterfall_derived"
+          },
+          "field": "opp_history_waterfall_derived.sankey_forecast_last",
+          "name": "Pipeline Exit",
+          "type": "Select"
+        },
+        {
+          "autoSuggest": {
+            "model": "sales_analytics",
+            "view": "opp_history_waterfall_derived"
+          },
+          "field": "opp_history_waterfall_derived.stage_name",
+          "name": "Stage",
+          "type": "Select"
+        },
+        {
+          "autoSuggest": {
+            "model": "sales_analytics",
+            "view": "opp_history_waterfall_derived"
+          },
+          "field": "opp_history_waterfall_derived.business_segment",
+          "name": "Segment",
+          "type": "Select"
+        },
+        {
+          "autoSuggest": {
+            "model": "sales_analytics",
+            "view": "opp_history_waterfall_derived"
+          },
+          "field": "opp_history_waterfall_derived.source",
+          "name": "Source",
+          "type": "Select"
+        },
+        {
+          "autoSuggest": {
+            "model": "sales_analytics",
+            "view": "opp_history_waterfall_derived"
+          },
+          "field": "opp_history_waterfall_derived.owner_name",
+          "name": "Representative",
+          "type": "Select"
+        }
+      ],
+      "crossFilter": {
+        "entityLabel": "deal",
+        "model": "sales_analytics",
+        "view": "opp_history_waterfall_derived",
+        "fields": [
+          "business_segment",
+          "is_pipeline",
+          "source",
+          "name",
+          "stage_name",
+          "owner_name",
+          "sankey_forecast_first",
+          "sankey_forecast_last",
+          "total_amount"
+        ],
+        "seriesColorsOn": ["sankey_forecast_first", "sankey_forecast_last"],
+        "tiles": [
+          {
+            "type": "sankey",
+            "options": {
+              "from": "sankey_forecast_first",
+              "to": "sankey_forecast_last",
+              "weight": "total_amount"
+            },
+            "elevation": false,
+            "fullWidth": true
+          },
+          {
+            "type": "pie",
+            "title": "Source",
+            "options": {
+              "group": "source",
+              "weight": "total_amount"
+            }
+          },
+          {
+            "type": "pie",
+            "title": "Stage",
+            "options": {
+              "group": "stage_name",
+              "weight": "total_amount",
+              "colorPosition": 3
+            }
+          },
+          {
+            "type": "pie",
+            "title": "Segment",
+            "options": {
+              "group": "business_segment",
+              "weight": "total_amount",
+              "colorPosition": 6
+            }
+          },
+          {
+            "type": "stackedbar",
+            "title": "Representative",
+            "options": {
+              "group": "owner_name",
+              "pivot": "sankey_forecast_last"
+            }
+          },
+          {
+            "type": "grid",
+            "fullWidth": true,
+            "height": "large",
+            "options": {
+              "fields": [
+                "stage_name",
+                "name",
+                "owner_name",
+                "is_pipeline",
+                "total_amount"
+              ],
+              "labels": {
+                "name": "Opportunity",
+                "owner_name": "Owner"
+              },
+              "sort": {
+                "direction": "desc",
+                "field": "total_amount"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "path": "lookups-account_lookup",
+      "title": "Account",
+      "type": "dashboardCollection",
+      "filters": [
+        {
+          "autoSuggest": {
+            "model": "sales_analytics",
+            "view": "account"
+          },
+          "field": "account.name",
+          "name": "Account",
+          "type": "Select",
+          "dashboardAlias": "Account"
+        }
+      ],
+      "dashboardCollection": {
+        "default": "account_lookup",
+        "dashboards": [
+          {
+            "lookmlID": "sales_analytics::account_lookup",
+            "name": "account_lookup",
+            "permalink": "account_lookup"
+          }
+        ]
+      }
+    },
+    {
+      "path": "lookups-opportunity_lookup",
+      "title": "Opportunity",
+      "type": "dashboardCollection",
+      "filters": [
+        {
+          "autoSuggest": {
+            "model": "sales_analytics",
+            "view": "opportunity"
+          },
+          "field": "opportunity.name",
+          "name": "Opportunity",
+          "type": "Table",
+          "tableID": "opportunity",
+          "required":"true",
+          "dashboardAlias": "Opportunity",
+          "multiple": false
+          }
+      ],
+      "dashboardCollection": {
+        "default": "opportunity_lookup",
+        "dashboards": [
+          {
+            "lookmlID": "sales_analytics::opportunity_lookup",
+            "name": "opportunity_lookup",
+            "permalink": "opportunity_lookup"
+          }
+        ]
+      }
+    },
+    {
+      "path": "sales-management-manager-overview",
+      "title": "Manager Overview",
+      "type": "dashboardCollection",
+      "filters": [
+        {
+          "autoSuggest": {
+            "model": "sales_analytics",
+            "view": "opportunity_owner"
+          },
+          "field": "opportunity_owner.manager",
+          "name": "Manager",
+          "dashboardAlias": "Manager",
+          "type": "Table",
+          "required":"true",
+          "tableID": "managers",
+          "multiple": false
+        }
+      ],
+      "dashboardCollection": {
+        "dashboards": [
+          {
+            "lookmlID": "sales_analytics::manager_overview",
+            "name": "Manager Overview",
+            "permalink": "manager_overview"
+          }
+        ]
+      }
+    },
+    {
+      "path": "sales_rep-leads",
+      "title": "Leads",
+      "type": "dashboardCollection",
+      "filters": [
+        {
+          "field": "opportunity_owner.name",
+          "dashboardAlias": "Sales Rep",
+          "name": "Sales Rep",
+          "type": "Table",
+          "defaultValue": "",
+          "tableID": "sales_rep"
+        }
+      ],
+      "dashboardCollection": {
+        "dashboards": [
+          {
+            "lookmlID": "sales_analytics::sales_rep_leads",
+            "name": "Sales Rep Leads",
+            "permalink": "sales_rep_leads"
+          }
+        ]
+      }
+    },
+    {
+      "path": "sales_rep-opportunities",
+      "title": "Opportunities",
+      "type": "dashboardCollection",
+      "filters": [
+        {
+          "field": "opportunity_owner.name",
+          "dashboardAlias": "Sales Rep",
+          "name": "Sales Rep",
+          "type": "Table",
+          "defaultValue": "",
+          "tableID": "sales_rep"
+        }
+      ],
+      "dashboardCollection": {
+        "dashboards": [
+          {
+            "lookmlID": "sales_analytics::sales_rep_opportunities",
+            "name": "Sales Rep Opportunities",
+            "permalink": "sales_rep_opportunities"
+          }
+        ]
+      }
+    },
+    {
+      "path": "sales_rep-accounts",
+      "title": "Accounts",
+      "type": "dashboardCollection",
+      "filters": [
+        {
+          "field": "opportunity_owner.name",
+          "dashboardAlias": "Sales Rep",
+          "name": "Sales Rep",
+          "type": "Table",
+          "defaultValue": "",
+          "tableID": "sales_rep"
+        }
+      ],
+      "dashboardCollection": {
+        "dashboards": [
+          {
+            "lookmlID": "sales_analytics::sales_rep_accounts",
+            "name": "Sales Rep Accounts",
+            "permalink": "sales_rep_accounts"
+          }
+        ]
+      }
+    },
+    {
+      "path": "sales_rep-leaderboard",
+      "title": "Leaderboard",
+      "type": "dashboardCollection",
+      "filters": [
+        {
+          "field": "opportunity_owner.name",
+          "dashboardAlias": "Sales Rep",
+          "name": "Sales Rep",
+          "type": "Table",
+          "multiple": false,
+          "defaultValue": "",
+          "tableID": "sales_rep",
+          "required": true,
+          "multiple": false
+        }
+      ],
+      "singleValuesSources": [
+        {
+          "model": "sales_analytics",
+          "view": "opportunity",
+          "params": "",
+          "fields": {
+            "bookings_qtd": {
+              "field": "qtd_amount_comparison.qtd_amount_rank"
+            },
+            "bookings_last_qtr": {
+              "field": "last_qtd_comparison.booking_amount_rank_last_fiscal_q_formatted"
+            },
+            "bookings_ytd": {
+              "field": "ytd_amount_comparison.ytd_amount_rank"
+            },
+            "bookings": {
+              "field": "total_amount_comparison_current.all_time_amount_rank_current"
+            },
+            "conversion_rate": {
+              "field": "win_percentage_comparison_current.win_percentage_rank_current_formatted"
+            },
+            "avg_deal_size": {
+              "field": "new_deal_size_comparison_current.deal_size_rank_formatted"
+            }
+          }
+        }
+      ],
+      "dashboardCollection": {
+        "default": "bookings_qtd",
+        "dashboards": [
+          {
+            "lookmlID": "sales_analytics::leaderboard__bookings_qtd",
+            "name": "Bookings QTD",
+            "permalink": "bookings_qtd",
+            "singleValueReference": "bookings_qtd"
+          },
+          {
+            "lookmlID": "sales_analytics::leaderboard__bookings_last_complete_quarter",
+            "name": "Bookings Last Qtr",
+            "permalink": "bookings_last_qtr",
+            "singleValueReference": "bookings_last_qtr"
+          },
+          {
+            "lookmlID": "sales_analytics::leaderboard__bookings_ytd",
+            "name": "Bookings YTD",
+            "permalink": "Bookings",
+            "singleValueReference": "bookings_ytd"
+          },
+          {
+            "lookmlID": "sales_analytics::leaderboard__bookings_all_time",
+            "name": "Bookings All Time",
+            "permalink": "bookings",
+            "singleValueReference": "bookings"
+          },
+          {
+            "lookmlID": "sales_analytics::leaderboard__conversion_rate",
+            "name": "Conversion Rate",
+            "permalink": "conversion_rate",
+            "singleValueReference": "conversion_rate"
+          },
+          {
+            "lookmlID": "sales_analytics::leaderboard__avg_deal_size",
+            "name": "Avg Deal Size",
+            "permalink": "deal_size",
+            "singleValueReference": "avg_deal_size"
+          }
+        ]
+      }
+    },
+    {
+      "path": "reports-funnel",
+      "title": "Funnel",
+      "type": "lookCollection",
+      "description": "Follow up on your opportunities and identify next steps.",
+      "filters": [
+        {
+          "field": "opportunity_owner.name",
+          "name": "Sales Rep",
+          "type": "Table",
+          "tableID": "sales_rep"
+        },
+        {
+          "autoSuggest": {
+            "model": "sales_analytics",
+            "view": "opportunity"
+          },
+          "field": "opportunity_owner.manager",
+          "name": "Rep Manager",
+          "type": "Select"
+        },
+        {
+          "autoSuggest": {
+            "model": "sales_analytics",
+            "view": "opportunity"
+          },
+          "field": "opportunity_owner.ae_region",
+          "name": "Region",
+          "type": "Select"
+        },
+        {
+          "autoSuggest": {
+            "model": "sales_analytics",
+            "view": "opportunity"
+          },
+          "field": "account.business_segment",
+          "name": "Segment",
+          "type": "Select"
+        },
+        {
+          "autoSuggest": {
+            "model": "sales_analytics",
+            "view": "opportunity"
+          },
+          "field": "opportunity.source",
+          "name": "Source",
+          "type": "Select"
+        },
+        {
+          "autoSuggest": {
+            "model": "sales_analytics",
+            "view": "opportunity"
+          },
+          "field": "opportunity.deal_size_tier",
+          "name": "Deal Size",
+          "type": "Select"
+        }
+      ],
+
+      "lookCollection": {
+        "looks": [
+          {
+            "description": "",
+            "exploreParams": "sales_analytics/opportunity?fields=opportunity_stage_history.stage,opportunity_stage_history.opps_in_each_stage&f[opportunity_stage_history.stage]=-NULL&sorts=opportunity_stage_history.opps_in_each_stage+desc&limit=500&vis=%7B%22type%22%3A%22looker_funnel%22%2C%22leftAxisLabelVisible%22%3Afalse%2C%22leftAxisLabel%22%3A%22%22%2C%22rightAxisLabelVisible%22%3Afalse%2C%22rightAxisLabel%22%3A%22%22%2C%22color_application%22%3A%7B%22collection_id%22%3A%225f313589-67ce-44ba-b084-ec5107a7bb7e%22%2C%22custom%22%3A%7B%22id%22%3A%2209c2057c-4bc3-f84e-75df-f66f7d9a4287%22%2C%22label%22%3A%22Custom%22%2C%22type%22%3A%22discrete%22%2C%22colors%22%3A%5B%22%23593A69%22%2C%22%23715180%22%2C%22%23896997%22%2C%22%23A181AE%22%2C%22%23B998C5%22%2C%22%23D1B0DC%22%2C%22%23EAC8F3%22%5D%2C%22__FILE%22%3A%22app-sales%2Fsales_leadership_overview.dashboard.lookml%22%2C%22__LINE_NUM%22%3A559%7D%2C%22options%22%3A%7B%22steps%22%3A5%2C%22__FILE%22%3A%22app-sales%2Fsales_leadership_overview.dashboard.lookml%22%2C%22__LINE_NUM%22%3A573%7D%7D%2C%22smoothedBars%22%3Atrue%2C%22orientation%22%3A%22automatic%22%2C%22labelPosition%22%3A%22left%22%2C%22percentType%22%3A%22total%22%2C%22percentPosition%22%3A%22inline%22%2C%22valuePosition%22%3A%22right%22%2C%22labelColorEnabled%22%3Afalse%2C%22labelColor%22%3A%22%23FFF%22%2C%22series_types%22%3A%7B%7D%7D&filter_config=%7B%22opportunity_stage_history.stage%22%3A%5B%7B%22type%22%3A%22%21null%22%2C%22values%22%3A%5B%7B%7D%2C%7B%7D%5D%2C%22id%22%3A0%2C%22error%22%3Afalse%7D%5D%7D&origin=share-expanded",
+            "name": "",
+            "permalink": "report-funnel",
+            "filters": []
+          }
+        ]
+      }
+    },
+    {
+      "path": "reports-opportunities",
+      "title": "Opportunities",
+      "type": "lookCollection",
+      "description": "Follow up on your opportunities and identify next steps.",
+      "filters": [
+        {
+          "field": "opportunity_owner.name",
+          "name": "Sales Rep",
+          "type": "Table",
+          "tableID": "sales_rep"
+        },
+        {
+          "autoSuggest": {
+            "model": "sales_analytics",
+            "view": "opportunity"
+          },
+          "field": "opportunity.stage_name",
+          "name": "Stage Name",
+          "type": "Select"
+        },
+        {
+          "autoSuggest": {
+            "model": "sales_analytics",
+            "view": "opportunity"
+          },
+          "field": "opportunity.type",
+          "name": "Opportunity Type",
+          "type": "Select"
+        }
+      ],
+      "lookCollection": {
+        "looks": [
+          {
+            "description": "",
+            "exploreParams": "sales_analytics/opportunity?fields=opportunity.name,opportunity.type,opportunity.created_date,opportunity.close_date,opportunity.days_open,opportunity.custom_stage_name,opportunity.next_step,opportunity.amount,opportunity.first_meeting_date,opportunity_history_days_in_current_stage.most_recent_stage_change_date&f[opportunity.is_closed]=No&f[opportunity.close_date]=this+quarter&f[opportunity.is_included_in_quota]=Yes&f[opportunity_owner.name]=&f[opportunity.stage_name]=&f[opportunity.type]=&sorts=opportunity.close_date&limit=500&column_limit=50&vis=%7B%22type%22%3A%22table%22%2C%22show_view_names%22%3A%22true%22%2C%22show_row_numbers%22%3Atrue%2C%22truncate_column_names%22%3Afalse%2C%22subtotals_at_bottom%22%3Afalse%2C%22hide_totals%22%3Afalse%2C%22hide_row_totals%22%3Afalse%2C%22table_theme%22%3A%22gray%22%2C%22limit_displayed_rows%22%3Afalse%2C%22enable_conditional_formatting%22%3Afalse%2C%22conditional_formatting_include_totals%22%3Afalse%2C%22conditional_formatting_include_nulls%22%3Afalse%2C%22series_types%22%3A%7B%7D%2C%22hidden_fields%22%3A%5B%22opportunity.first_meeting_date%22%2C%22opportunity_history_days_in_current_stage.most_recent_stage_change_date_date%22%2C%22opportunity_history_days_in_current_stage.most_recent_stage_change_date%22%2C%22opportunity.days_open%22%5D%7D&filter_config=%7B%22opportunity.is_closed%22%3A%5B%7B%22type%22%3A%22is%22%2C%22values%22%3A%5B%7B%22constant%22%3A%22No%22%7D%2C%7B%7D%5D%2C%22id%22%3A0%2C%22error%22%3Afalse%7D%5D%2C%22opportunity.close_date%22%3A%5B%7B%22type%22%3A%22advanced%22%2C%22values%22%3A%5B%7B%22constant%22%3A%22this+quarter%22%7D%2C%7B%7D%5D%2C%22id%22%3A1%2C%22error%22%3Afalse%7D%5D%2C%22opportunity.is_included_in_quota%22%3A%5B%7B%22type%22%3A%22is%22%2C%22values%22%3A%5B%7B%22constant%22%3A%22Yes%22%7D%2C%7B%7D%5D%2C%22id%22%3A2%2C%22error%22%3Afalse%7D%5D%2C%22opportunity_owner.name%22%3A%5B%7B%22type%22%3A%22%3D%22%2C%22values%22%3A%5B%7B%22constant%22%3A%22%22%7D%2C%7B%7D%5D%2C%22id%22%3A3%2C%22error%22%3Afalse%7D%5D%2C%22opportunity.stage_name%22%3A%5B%7B%22type%22%3A%22%3D%22%2C%22values%22%3A%5B%7B%22constant%22%3A%22%22%7D%2C%7B%7D%5D%2C%22id%22%3A4%2C%22error%22%3Afalse%7D%5D%2C%22opportunity.type%22%3A%5B%7B%22type%22%3A%22%3D%22%2C%22values%22%3A%5B%7B%22constant%22%3A%22%22%7D%2C%7B%7D%5D%2C%22id%22%3A5%2C%22error%22%3Afalse%7D%5D%7D&dynamic_fields=%5B%7B%22table_calculation%22%3A%22days_since_1st_meeting%22%2C%22label%22%3A%22Days+Since+1st+Meeting%22%2C%22expression%22%3A%22diff_days%28%24%7Bopportunity.first_meeting_date%7D%2Cnow%28%29%29%22%2C%22value_format%22%3Anull%2C%22value_format_name%22%3Anull%2C%22_kind_hint%22%3A%22dimension%22%2C%22_type_hint%22%3A%22number%22%7D%2C%7B%22table_calculation%22%3A%22days_in_current_stage%22%2C%22label%22%3A%22Days+in+Current+Stage%22%2C%22expression%22%3A%22diff_days%28%24%7Bopportunity_history_days_in_current_stage.most_recent_stage_change_date%7D%2Cnow%28%29%29%22%2C%22value_format%22%3Anull%2C%22value_format_name%22%3Anull%2C%22_kind_hint%22%3A%22dimension%22%2C%22_type_hint%22%3A%22number%22%7D%2C%7B%22table_calculation%22%3A%22days_open%22%2C%22label%22%3A%22Days+Open%22%2C%22expression%22%3A%22if%28%24%7Bopportunity.days_open%7D+%3E%3D+0%2C+to_string%28%24%7Bopportunity.days_open%7D%29%2C+%5C%22Update+Close+Date%5C%22%29%22%2C%22value_format%22%3Anull%2C%22value_format_name%22%3Anull%2C%22_kind_hint%22%3A%22dimension%22%2C%22_type_hint%22%3A%22string%22%7D%5D&origin=share-expanded",
+            "name": "This Quarter",
+            "permalink": "opportunity_open_opps_this_quarter",
+            "filters": []
+          },
+          {
+            "description": "",
+            "exploreParams": "sales_analytics/opportunity?fields=opportunity.name,opportunity.type,opportunity.created_date,opportunity.close_date,opportunity.days_open,opportunity.custom_stage_name,opportunity.next_step,opportunity.amount,opportunity.first_meeting_date,opportunity_history_days_in_current_stage.most_recent_stage_change_date&f[opportunity.is_closed]=No&f[opportunity_owner.name]=&f[opportunity.stage_name]=&f[opportunity.type]=&f[opportunity.is_included_in_quota]=Yes&sorts=opportunity.close_date&limit=500&column_limit=50&vis=%7B%22type%22%3A%22table%22%2C%22show_view_names%22%3A%22true%22%2C%22show_row_numbers%22%3Atrue%2C%22truncate_column_names%22%3Afalse%2C%22subtotals_at_bottom%22%3Afalse%2C%22hide_totals%22%3Afalse%2C%22hide_row_totals%22%3Afalse%2C%22table_theme%22%3A%22gray%22%2C%22limit_displayed_rows%22%3Afalse%2C%22enable_conditional_formatting%22%3Afalse%2C%22conditional_formatting_include_totals%22%3Afalse%2C%22conditional_formatting_include_nulls%22%3Afalse%2C%22series_types%22%3A%7B%7D%2C%22hidden_fields%22%3A%5B%22opportunity.first_meeting_date%22%2C%22opportunity_history_days_in_current_stage.most_recent_stage_change_date_date%22%2C%22opportunity_history_days_in_current_stage.most_recent_stage_change_date%22%5D%7D&filter_config=%7B%22opportunity.is_closed%22%3A%5B%7B%22type%22%3A%22is%22%2C%22values%22%3A%5B%7B%22constant%22%3A%22No%22%7D%2C%7B%7D%5D%2C%22id%22%3A0%2C%22error%22%3Afalse%7D%5D%2C%22opportunity_owner.name%22%3A%5B%7B%22type%22%3A%22%3D%22%2C%22values%22%3A%5B%7B%22constant%22%3A%22%22%7D%2C%7B%7D%5D%2C%22id%22%3A1%2C%22error%22%3Afalse%7D%5D%2C%22opportunity.stage_name%22%3A%5B%7B%22type%22%3A%22%3D%22%2C%22values%22%3A%5B%7B%22constant%22%3A%22%22%7D%2C%7B%7D%5D%2C%22id%22%3A2%2C%22error%22%3Afalse%7D%5D%2C%22opportunity.type%22%3A%5B%7B%22type%22%3A%22%3D%22%2C%22values%22%3A%5B%7B%22constant%22%3A%22%22%7D%2C%7B%7D%5D%2C%22id%22%3A3%2C%22error%22%3Afalse%7D%5D%2C%22opportunity.is_included_in_quota%22%3A%5B%7B%22type%22%3A%22is%22%2C%22values%22%3A%5B%7B%22constant%22%3A%22Yes%22%7D%2C%7B%7D%5D%2C%22id%22%3A4%2C%22error%22%3Afalse%7D%5D%7D&dynamic_fields=%5B%7B%22table_calculation%22%3A%22days_since_1st_meeting%22%2C%22label%22%3A%22Days+Since+1st+Meeting%22%2C%22expression%22%3A%22diff_days%28%24%7Bopportunity.first_meeting_date%7D%2Cnow%28%29%29%22%2C%22value_format%22%3Anull%2C%22value_format_name%22%3Anull%2C%22_kind_hint%22%3A%22dimension%22%2C%22_type_hint%22%3A%22number%22%7D%2C%7B%22table_calculation%22%3A%22days_in_current_stage%22%2C%22label%22%3A%22Days+in+Current+Stage%22%2C%22expression%22%3A%22diff_days%28%24%7Bopportunity_history_days_in_current_stage.most_recent_stage_change_date%7D%2Cnow%28%29%29%22%2C%22value_format%22%3Anull%2C%22value_format_name%22%3Anull%2C%22_kind_hint%22%3A%22dimension%22%2C%22_type_hint%22%3A%22number%22%7D%2C%7B%22table_calculation%22%3A%22days_open%22%2C%22label%22%3A%22Days+Open%22%2C%22expression%22%3A%22if%28%24%7Bopportunity.days_open%7D+%3E%3D+0%2C+to_string%28%24%7Bopportunity.days_open%7D%29%2C+%5C%22Update+Close+Date%5C%22%29%22%2C%22value_format%22%3Anull%2C%22value_format_name%22%3Anull%2C%22_kind_hint%22%3A%22dimension%22%2C%22_type_hint%22%3A%22string%22%7D%5D&origin=share-expanded",
+            "name": "All Time",
+            "permalink": "opportunity_open_opps_all_time",
+            "filters": []
+          },
+          {
+            "description": "",
+            "exploreParams": "sales_analytics/opportunity?fields=opportunity.name,opportunity.type,opportunity.created_date,opportunity.close_date,opportunity.days_to_closed_won,opportunity.custom_stage_name,opportunity.amount&f[opportunity.is_closed]=Yes&f[opportunity_owner.name]=&f[opportunity.stage_name]=&f[opportunity.type]=&f[opportunity.is_included_in_quota]=Yes&sorts=opportunity.close_date+desc&limit=500&column_limit=50&vis=%7B%22type%22%3A%22table%22%2C%22show_view_names%22%3A%22true%22%2C%22show_row_numbers%22%3Atrue%2C%22truncate_column_names%22%3Afalse%2C%22subtotals_at_bottom%22%3Afalse%2C%22hide_totals%22%3Afalse%2C%22hide_row_totals%22%3Afalse%2C%22table_theme%22%3A%22gray%22%2C%22limit_displayed_rows%22%3Afalse%2C%22enable_conditional_formatting%22%3Afalse%2C%22conditional_formatting_include_totals%22%3Afalse%2C%22conditional_formatting_include_nulls%22%3Afalse%2C%22series_types%22%3A%7B%7D%2C%22hidden_fields%22%3A%5B%22opportunity_history_days_in_current_stage.most_recent_stage_change_date_date%22%5D%7D&filter_config=%7B%22opportunity.is_closed%22%3A%5B%7B%22type%22%3A%22is%22%2C%22values%22%3A%5B%7B%22constant%22%3A%22Yes%22%7D%2C%7B%7D%5D%2C%22id%22%3A0%2C%22error%22%3Afalse%7D%5D%2C%22opportunity_owner.name%22%3A%5B%7B%22type%22%3A%22%3D%22%2C%22values%22%3A%5B%7B%22constant%22%3A%22%22%7D%2C%7B%7D%5D%2C%22id%22%3A1%2C%22error%22%3Afalse%7D%5D%2C%22opportunity.stage_name%22%3A%5B%7B%22type%22%3A%22%3D%22%2C%22values%22%3A%5B%7B%22constant%22%3A%22%22%7D%2C%7B%7D%5D%2C%22id%22%3A2%2C%22error%22%3Afalse%7D%5D%2C%22opportunity.type%22%3A%5B%7B%22type%22%3A%22%3D%22%2C%22values%22%3A%5B%7B%22constant%22%3A%22%22%7D%2C%7B%7D%5D%2C%22id%22%3A3%2C%22error%22%3Afalse%7D%5D%2C%22opportunity.is_included_in_quota%22%3A%5B%7B%22type%22%3A%22is%22%2C%22values%22%3A%5B%7B%22constant%22%3A%22Yes%22%7D%2C%7B%7D%5D%2C%22id%22%3A4%7D%5D%7D&dynamic_fields=%5B%5D&origin=share-expanded",
+            "name": "Closed",
+            "permalink": "opportunity_closed_opps",
+            "filters": []
+          }
+        ]
+      }
+    }
+  ]
+}

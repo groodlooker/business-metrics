@@ -30,6 +30,15 @@ view: order_info {
     sql: CURRENT_TIMESTAMP ;;
   }
 
+  dimension: assigned_region {
+    sql: {{_user_attributes["region"]}} ;;
+  }
+
+  dimension: region_filter {
+    type: yesno
+    sql: ${region} in ({{_user_attributes["region"]}}) ;;
+  }
+
 
 
 
@@ -111,7 +120,7 @@ view: order_info {
     ]
     convert_tz: no
     datatype: date
-    sql: ${TABLE}.order_date ;;
+    sql: ${TABLE}.order_date + INTERVAL '2 year' ;;
   }
 
   measure: distinct_years {
@@ -133,10 +142,71 @@ view: order_info {
     sql: ${TABLE}.order_id ;;
   }
 
+  measure: grand_total_sales {
+    type: number
+    sql: max((select sum(sales) from order_info));;
+    html: <div style="width:100px; height: 100px; border-radius:50%; background-color:rgba(25,35,150,{{value}}">{{value}}</div> ;;
+  }
+
+  measure: formatted_countd {
+    type: count_distinct
+    sql: ${order_id} ;;
+    html: <div style="line-height: {{circle_size._parameter_value}}px; text-align:center; margin-right: auto; margin-left: auto; width:{{circle_size._parameter_value}}px; height: {{circle_size._parameter_value}}px; border-radius:50%; background-color:rgba(25,35,150,{{percent_by_region._value}}">
+    <span style="color:black;">{{rendered_value}}</span></div> ;;
+    # html:  ;;
+  }
+
+  parameter: circle_size {
+    description: "use in conjunction with formatted_countd"
+    type: number
+    default_value: "35"
+  }
+
+  parameter: font_color {
+    description: "use in conjunction with progress bar"
+    type: unquoted
+    default_value: "white"
+  }
+
+  parameter: font_size {
+    description: "control font of progress bar"
+    type: number
+    default_value: "12"
+  }
+
+  measure: grand_order_count {
+    type: number
+    sql: max((select count(distinct order_id) from order_info)) ;;
+  }
+
+  # <div><i class="fa fa-circle" aria-hidden="true"></i></div>
+  # color1: 151,206,255
+  # color2: 114,127,157
+
+  # R =  (114-151) * fraction + 151
+  # G =  (127-206) * fraction + 206
+  # B =  (157-255) * fraction + 255
+
+  measure: percent_by_region {
+    type: number
+    value_format_name: percent_1
+    sql: (${total_sales} / nullif(${grand_total_sales},0)) ;;
+    html: <div class="container-fluid" style="height:{{circle_size._parameter_value}}px;"><div class="progress" style="line-height:{{circle_size._parameter_value}}px; height:{{circle_size._parameter_value}}px;">
+  <div class="progress-bar" role="progressbar" aria-valuenow="{{ value | times: 100 }}" aria-valuemin="0" aria-valuemax="100" style="background-color:#8EA6BB !important; width:{{ value | times: 100 }}%">
+    <span style="float:left;text-align:center;font-size:{{font_size._parameter_value}}px !important;color:{{font_color._parameter_value}};line-height:{{circle_size._parameter_value}}px; height:{{circle_size._parameter_value}}px;">{{rendered_value}}</span>
+  </div>
+</div></div> ;;
+  }
+
+  dimension: logo_erizer {
+    sql: 1 ;;
+    html: <img src="//logo.clearbit.com/spotify.com?size=100"> ;;
+  }
+
   dimension: postal_code {
-    type: string
+    type: zipcode
     view_label: "Customer Location Details"
-    map_layer_name: us_zipcode_tabulation_areas
+#     map_layer_name: us_zipcode_tabulation_areas
     sql: ${TABLE}.postal_code ;;
   }
 
@@ -182,6 +252,10 @@ view: order_info {
     type: string
     view_label: "Customer Attributes"
     sql: ${TABLE}.segment ;;
+    link: {
+      label: "Segment Lookup"
+      url: "{% if value == 'Consumer' %} www.google.com {% endif %}"
+    }
   }
 
   dimension_group: ship {
@@ -255,7 +329,7 @@ view: order_info {
     type: yesno
     hidden: yes
     group_label: "Year over Year Metrics"
-    sql: ${order_year} = Extract(year from now()) - 2 ;;
+    sql: ${order_year} = Extract(year from now()) - 1  ;;
 
   }
 
@@ -263,7 +337,7 @@ view: order_info {
     type: yesno
     hidden: yes
     group_label: "Year over Year Metrics"
-    sql: ${order_year} = Extract(year from now()) - 1 ;;
+    sql: ${order_year} = Extract(year from now()) ;;
 
   }
 
@@ -285,6 +359,49 @@ view: order_info {
     drill_fields: [my_drills*]
     sql: ${TABLE}.{% parameter choose_measure %} ;;
   }
+
+  measure: this_year_profit {
+    type: sum
+    value_format_name: usd_0
+    filters: {
+      field: ty
+      value: "yes"
+    }
+    sql: ${profit} ;;
+  }
+
+  measure: last_year_profit {
+    type: sum
+    value_format_name: usd_0
+    filters: {
+      field: ly
+      value: "yes"
+    }
+    sql: ${profit} ;;
+  }
+
+  measure: this_year_orders {
+    type: count_distinct
+    value_format_name: usd_0
+    filters: {
+      field: ty
+      value: "yes"
+    }
+    sql: ${order_id} ;;
+  }
+
+  measure: last_year_orders {
+    type: count_distinct
+    value_format_name: usd_0
+    filters: {
+      field: ly
+      value: "yes"
+    }
+    sql: ${order_id} ;;
+  }
+
+
+
 
 #   dimension: next_purchase {
 #     type: date
@@ -380,6 +497,33 @@ view: order_info {
   dimension: customer_ranked_in_top_5 {
     type: yesno
     sql: ${customer_rank.customer_rank_by_year_region} < 6 ;;
+  }
+
+  measure: summartext {
+    sql: 1 ;;
+    html: <center><div><p style="font-size: 50%">This brought you a total of<p><div></center>
+          <div><p style="color: #3F97F8; font-size: 50%">{{unique_orders._rendered_value}} Applies</p></div>
+          <div><p style="font-size: 25%">Desktop Applies: <font style="color: #3F97F8;">{{desktop._rendered_value}}</font></p></div>
+          <div><p style="font-size: 25%">Mobile Applies: <font style="color: #3F97F8;">{{mobile._rendered_value}}</font></p></div>
+    ;;
+  }
+
+  measure: desktop {
+    sql: ${order_id} ;;
+    type: count_distinct
+    filters: {
+      field: segment
+      value: "Consumer"
+    }
+  }
+
+  measure: mobile {
+    sql: ${order_id} ;;
+    type: count_distinct
+    filters: {
+      field: segment
+      value: "-Consumer"
+    }
   }
 
   measure: product_max {
