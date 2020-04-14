@@ -501,11 +501,24 @@ view: order_info {
 
   measure: summartext {
     sql: 1 ;;
-    html: <center><div><p style="font-size: 50%">This brought you a total of<p><div></center>
-          <div><p style="color: #3F97F8; font-size: 50%">{{unique_orders._rendered_value}} Applies</p></div>
-          <div><p style="font-size: 25%">Desktop Applies: <font style="color: #3F97F8;">{{desktop._rendered_value}}</font></p></div>
-          <div><p style="font-size: 25%">Mobile Applies: <font style="color: #3F97F8;">{{mobile._rendered_value}}</font></p></div>
+    html: <center><div><p style="font-size: 65%">This brought you a total of<p><div></center>
+          <div><p style="color: #3F97F8; font-size: 65%">{{unique_orders._rendered_value}} Applies</p></div>
+          <div><p style="font-size: 40%">Desktop Applies: <font style="color: #3F97F8;">{{desktop._rendered_value}}</font></p></div>
+          <div><p style="font-size: 40%">Mobile Applies: <font style="color: #3F97F8;">{{mobile._rendered_value}}</font></p></div>
     ;;
+  }
+
+  measure: compared_to_text {
+    sql: 1 ;;
+    html: <center><div><p style="font-size: 50%">Compared to other employers like you, you performed<p><div></center>
+          <div><p style="color: #F39875; font-size: 50%">{{stuff._rendered_value}}{% if  stuff._value > 0 %} above {% else %} below {% endif %}your industry's average</p></div>
+    ;;
+  }
+
+  measure: stuff {
+    type: number
+    value_format_name: percent_0
+    sql: cast(${desktop} as float) / cast(${unique_orders} as float) ;;
   }
 
   measure: desktop {
